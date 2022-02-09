@@ -14,19 +14,17 @@
 namespace nts {
     class Circuit : public Component {
         public:
-            Circuit(std::size_t nbPins);
+            Circuit(ComponentType type, std::size_t nbPins);
             ~Circuit() = default;
 
             void simulate(std::size_t tick);
+            Tristate compute(std::size_t pin);
 
-            void addComponent(std::string name, IComponent *component);
-
-            void updateComponents(std::vector<nts::IComponent*>&, std::vector<nts::IComponent*>&, std::vector<nts::IComponent*>&);
+            void setLink(std::size_t pin, IComponent &other, std::size_t otherPin);
 
         protected:
         private:
+            std::vector<IComponent*> _outputs;
             std::map<std::string, IComponent*> _components;
-            std::map<IComponent*, std::vector<IComponent*>> _connections;
-            std::vector<IComponent*> _entryPoints;
     };
 }

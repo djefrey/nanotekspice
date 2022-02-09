@@ -1,4 +1,4 @@
 **/*.o
 nanotekspice
-*.vgcore
+vgcore*
 .vscode

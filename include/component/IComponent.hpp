@@ -16,6 +16,12 @@
 namespace nts {
     typedef struct Connection_s Connection;
 
+    enum ComponentType {
+        INPUT,
+        COMPONENT,
+        OUTPUT,
+    };
+
     class NtsError : public std::exception {
         public:
             NtsError(std::string loc, std::string msg) : _err("Error at " + loc + " : " + msg) {};
@@ -34,12 +40,13 @@ namespace nts {
             virtual void setLink(std::size_t pin, IComponent &other, std::size_t otherPin) = 0;
             virtual void dump() const = 0;
 
-            virtual void updateState(Tristate state, std::size_t pin) = 0;
-
+            virtual void setStateAt(std::size_t pin, Tristate state) = 0;
             virtual Connection getConnectionAt(std::size_t pin) const = 0;
             virtual void setConnectionAt(std::size_t pin, Connection connection) = 0;
+            virtual std::vector<IComponent*> getConnections() const = 0;
 
             virtual std::string getName() const = 0;
+            virtual ComponentType getType() const = 0;
     };
 
     struct Connection_s {

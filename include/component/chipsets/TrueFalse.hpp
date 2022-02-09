@@ -11,16 +11,20 @@
 
 namespace nts {
     class TrueInput : public Component {
-        TrueInput();
-        ~TrueInput() = default;
+        public:
+            TrueInput();
+            ~TrueInput() = default;
 
-        void simulate(std::size_t tick);
+            Tristate compute(std::size_t pin);
+            void simulate(std::size_t tick);
     };
 
     class FalseInput : public Component {
-        FalseInput();
-        ~FalseInput() = default;
+        public:
+            FalseInput();
+            ~FalseInput() = default;
 
-        void simulate(std::size_t tick);
+            Tristate compute(std::size_t pin);
+            void simulate(std::size_t tick);
     };
 }

@@ -8,44 +8,35 @@
 #include <algorithm>
 #include "component/Circuit.hpp"
 
-nts::Circuit::Circuit(std::size_t nbPins) : Component("Circuit", nbPins)
+nts::Circuit::Circuit(ComponentType type, std::size_t nbPins) : Component(type, "Circuit", nbPins)
 {
 }
-
 
 void nts::Circuit::simulate(std::size_t tick)
 {
-    std::vector<IComponent*> toUpdate{this->_entryPoints};
-    std::vector<IComponent*> nextUpdate;
-    std::vector<IComponent*> alreadyUpdated;
+    Connection conn;
 
-    for (std::size_t i = 0; i < tick; i++) {
-        while (!toUpdate.empty()) {
-            updateComponents(toUpdate, nextUpdate, alreadyUpdated);
-            toUpdate = nextUpdate;
-            nextUpdate.clear();
+    for (std::size_t t = 0; t < tick; t++) {
+        for (IComponent *output : _outputs) {
+            conn = getConnectionWith(output);
+            if (conn.component)
+                conn.component->compute(conn.toPin);
         }
     }
 }
 
-void nts::Circuit::updateComponents(std::vector<nts::IComponent*> &toUpdate,
-                                    std::vector<nts::IComponent*> &nextUpdate,
-                                    std::vector<nts::IComponent*> &alreadyUpdated)
+nts::Tristate nts::Circuit::compute(std::size_t pin)
 {
-    IComponent *component;
-    std::vector<IComponent*> *next;
+    Connection conn = this->getConnectionAt(pin);
 
-    while (!toUpdate.empty()) {
-        component = toUpdate.back();
-        component->simulate(1);
-        next = &this->_connections[component];
-        for (std::size_t i = 0; i < next->size(); i++) {
-            if (std::find(alreadyUpdated.begin(), alreadyUpdated.end(), (*next)[i]) == alreadyUpdated.end())
-                alreadyUpdated.push_back((*next)[i]);
-        }
-    }
+    if (conn.component)
+        return conn.component->compute(conn.toPin);
+    return UNDEFINED;
 }
 
-void nts::Circuit::addComponent(std::string name, IComponent *component)
+void nts::Circuit::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
+    nts::Component::setLink(pin, other, otherPin);
+    if (other.getType() == OUTPUT)
+        this->_outputs.push_back(&other);
 }

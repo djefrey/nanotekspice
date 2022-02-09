@@ -28,6 +28,9 @@ all: $(NAME)
 $(NAME): $(MAIN_OBJ) $(OBJ)
 	g++ $(CXXFLAGS) -o $(NAME) $(MAIN_OBJ) $(OBJ)
 
+debug: CXXFLAGS += -g
+debug: re
+
 clean: SRC += MAIN_SRC
 clean:
 	rm -f $(MAIN_OBJ)

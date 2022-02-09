@@ -15,8 +15,8 @@ namespace nts {
             Output();
             ~Output() = default;
 
+            Tristate compute(std::size_t pin);
             void simulate(std::size_t tick);
-            Tristate getState();
 
         protected:
         private:
