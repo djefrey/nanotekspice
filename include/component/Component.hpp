@@ -15,11 +15,14 @@ namespace nts {
         public:
             Component() = delete;
 
+            void simulate(std::size_t ticks);
+            Tristate compute(std::size_t pin);
             void setLink(std::size_t pin, IComponent &other, std::size_t otherPin);
             void dump() const;
 
+            std::vector<std::size_t> getUpdatedPins() const;
+
             void setStateAt(std::size_t pin, Tristate state);
-            Tristate getStateAt(std::size_t pin);
 
             Connection getConnectionAt(std::size_t pin) const;
             Connection getConnectionWith(IComponent *component) const;
@@ -34,11 +37,14 @@ namespace nts {
         protected:
             Component(ComponentType type, std::string name, std::size_t nbPins);
 
+            void clearUpdatedPins();
+
         private:
             ComponentType _type;
             std::string _name;
             std::size_t _nbPins;
             std::vector<Tristate> _states;
             std::vector<Connection> _connections;
+            std::vector<std::size_t> _updatedPins;
     };
 }

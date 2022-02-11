@@ -12,22 +12,14 @@ nts::Output::Output() : Component(OUTPUT, "Output", 1)
 {
 }
 
-nts::Tristate nts::Output::compute(std::size_t pin)
-{
-    (void) pin;
-    return UNDEFINED;
-}
-
-void nts::Output::simulate(std::size_t tick)
+void nts::Output::update()
 {
     Connection conn = this->getConnectionAt(0);
     Tristate state;
 
     if (conn.component) {
-        for (size_t t = 0; t < tick; t++) {
-            state = conn.component->compute(conn.toPin);
-            std::cout << "Output :" << state << std::endl;
-        }
+        state = conn.component->compute(conn.toPin);
+        std::cout << "Output :" << state << std::endl;
     }
 }
 

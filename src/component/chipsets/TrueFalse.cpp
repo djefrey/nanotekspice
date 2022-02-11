@@ -11,28 +11,16 @@ nts::TrueInput::TrueInput() : Component(INPUT, "TrueInput", 1)
 {
 }
 
-nts::Tristate nts::TrueInput::compute(std::size_t pin)
+void nts::TrueInput::update()
 {
-    (void) pin;
-    return nts::Tristate::TRUE;
-}
-
-void nts::TrueInput::simulate(std::size_t tick)
-{
-    (void) tick;
+    setStateAt(0, TRUE);
 }
 
 nts::FalseInput::FalseInput() : Component(INPUT, "FalseInput", 1)
 {
 }
 
-nts::Tristate nts::FalseInput::compute(std::size_t pin)
+void nts::FalseInput::update()
 {
-    (void) pin;
-    return nts::Tristate::FALSE;
-}
-
-void nts::FalseInput::simulate(std::size_t tick)
-{
-    (void) tick;
+    setStateAt(0, FALSE);
 }

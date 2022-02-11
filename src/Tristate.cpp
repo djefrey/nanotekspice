@@ -56,8 +56,7 @@ nts::Tristate nts::xor_gate(nts::Tristate a, nts::Tristate b)
 
 std::ostream &nts::operator<<(std::ostream &s, nts::Tristate value)
 {
-    switch (value)
-    {
+    switch (value) {
         case nts::Tristate::TRUE:
             s << "True";
             break;

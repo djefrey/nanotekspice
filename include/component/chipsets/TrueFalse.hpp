@@ -15,8 +15,7 @@ namespace nts {
             TrueInput();
             ~TrueInput() = default;
 
-            Tristate compute(std::size_t pin);
-            void simulate(std::size_t tick);
+            void update();
     };
 
     class FalseInput : public Component {
@@ -24,7 +23,6 @@ namespace nts {
             FalseInput();
             ~FalseInput() = default;
 
-            Tristate compute(std::size_t pin);
-            void simulate(std::size_t tick);
+            void update();
     };
 }

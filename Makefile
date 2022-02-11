@@ -11,6 +11,7 @@ SRC					=	src/Tristate.cpp							\
 						src/component/Circuit.cpp					\
 						src/component/chipsets/Chipset4081.cpp		\
 						src/component/chipsets/TrueFalse.cpp		\
+						src/component/chipsets/Clock.cpp			\
 						src/component/chipsets/Output.cpp
 
 INC_DIR				=	./include

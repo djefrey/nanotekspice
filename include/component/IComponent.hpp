@@ -17,9 +17,9 @@ namespace nts {
     typedef struct Connection_s Connection;
 
     enum ComponentType {
-        INPUT,
-        COMPONENT,
-        OUTPUT,
+        COMPONENT = 0,
+        INPUT = 1,
+        OUTPUT = 2,
     };
 
     class NtsError : public std::exception {
@@ -40,8 +40,14 @@ namespace nts {
             virtual void setLink(std::size_t pin, IComponent &other, std::size_t otherPin) = 0;
             virtual void dump() const = 0;
 
+            virtual void update() = 0;
+
+            virtual std::vector<std::size_t> getUpdatedPins() const = 0;
+
             virtual void setStateAt(std::size_t pin, Tristate state) = 0;
+
             virtual Connection getConnectionAt(std::size_t pin) const = 0;
+            virtual Connection getConnectionWith(IComponent *component) const = 0;
             virtual void setConnectionAt(std::size_t pin, Connection connection) = 0;
             virtual std::vector<IComponent*> getConnections() const = 0;
 

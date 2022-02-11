@@ -8,35 +8,42 @@
 #include <algorithm>
 #include "component/Circuit.hpp"
 
-nts::Circuit::Circuit(ComponentType type, std::size_t nbPins) : Component(type, "Circuit", nbPins)
+nts::Circuit::Circuit(ComponentType type, std::string name, std::size_t nbPins) : Component(type, name, nbPins)
 {
 }
 
-void nts::Circuit::simulate(std::size_t tick)
+#include <iostream>
+
+void nts::Circuit::update()
+{
+    std::vector<IComponent*> toUpdate = this->_inputs;
+    std::vector<IComponent*> nextUpdate;
+
+    while (!toUpdate.empty()) {
+        for (IComponent *comp : toUpdate) {
+            comp->simulate(1);
+            addUpdatedPinsToUpdate(nextUpdate, comp);
+        }
+        toUpdate = nextUpdate;
+        nextUpdate.clear();
+    }
+}
+
+void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent *comp)
 {
     Connection conn;
 
-    for (std::size_t t = 0; t < tick; t++) {
-        for (IComponent *output : _outputs) {
-            conn = getConnectionWith(output);
-            if (conn.component)
-                conn.component->compute(conn.toPin);
+    for (std::size_t pin : comp->getUpdatedPins()) {
+        conn = comp->getConnectionAt(pin);
+        if (conn.component
+        &&  std::find(update.begin(), update.end(), conn.component) == update.end()) {
+            update.push_back(conn.component);
         }
     }
 }
 
-nts::Tristate nts::Circuit::compute(std::size_t pin)
+void nts::Circuit::addInput(IComponent &comp)
 {
-    Connection conn = this->getConnectionAt(pin);
-
-    if (conn.component)
-        return conn.component->compute(conn.toPin);
-    return UNDEFINED;
-}
-
-void nts::Circuit::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
-{
-    nts::Component::setLink(pin, other, otherPin);
-    if (other.getType() == OUTPUT)
-        this->_outputs.push_back(&other);
+    if (comp.getType() & INPUT)
+        this->_inputs.push_back(&comp);
 }
