@@ -75,6 +75,8 @@ void nts::Component::setStateAt(PinId pin, Tristate state)
 {
     if (pin >= this->_nbPins)
         throw NtsError("Component::setStateAt()", "Invalid pin");
+    if (this->_states[pin] != state)
+        this->_updatedPins.push_back(pin);
     this->_states[pin] = state;
 }
 

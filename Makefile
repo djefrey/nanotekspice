@@ -8,6 +8,7 @@
 MAIN_SRC			=	src/main.cpp
 SRC					=	src/Tristate.cpp							\
 						src/component/Component.cpp					\
+						src/component/ComponentFactory.cpp			\
 						src/component/Circuit.cpp					\
 						src/component/chipsets/Chipset4081.cpp		\
 						src/component/chipsets/TrueFalse.cpp		\

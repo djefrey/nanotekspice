@@ -18,7 +18,7 @@ namespace nts {
             ~Circuit() = default;
 
             void simulate(std::size_t tick);
-            IComponent &createComponent(std::string &model, std::string name);
+            IComponent &createComponent(const std::string &model, std::string name);
 
         protected:
             std::map<std::string, std::unique_ptr<IComponent>> _components;

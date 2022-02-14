@@ -13,14 +13,13 @@
 
 int main(void)
 {
-    nts::TrueInput in0;
-    nts::Clock clock;
-    nts::TrueInput in2;
-    nts::Output out0;
-
-    nts::Chipset4081 chipset;
-
     nts::Circuit circuit(nts::ComponentType::COMPONENT, "Main Circuit", 0);
+
+    nts::IComponent &in0 = circuit.createComponent(std::string("true"), "in0");
+    nts::IComponent &clock = circuit.createComponent(std::string("clock"), "clock");
+    nts::IComponent &in2 = circuit.createComponent(std::string("true"), "in2");
+    nts::IComponent &out0 = circuit.createComponent(std::string("output"), "out0");
+    nts::IComponent &chipset = circuit.createComponent(std::string("4081"), "and");
 
     chipset.setLink(0, in0, 0);
     chipset.setLink(1, clock, 0);
@@ -30,5 +29,5 @@ int main(void)
 
     chipset.setLink(3, out0, 0);
 
-    circuit.simulate(5);
+    circuit.simulate(0);
 }

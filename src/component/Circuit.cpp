@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include "component/Circuit.hpp"
+#include "component/ComponentFactory.hpp"
 
 nts::Circuit::Circuit(ComponentType type, std::string model, std::size_t nbPins)
     : Component(type, model, nbPins)
@@ -28,6 +29,19 @@ void nts::Circuit::simulate(std::size_t tick)
         toUpdate = nextUpdate;
         nextUpdate.clear();
     }
+}
+
+nts::IComponent &nts::Circuit::createComponent(const std::string &model, std::string name)
+{
+    auto comp = ComponentFactory::get().createComponent(model);
+    IComponent *ptr;
+
+    comp->setName(name);
+    this->_components[name] = std::move(comp);
+    ptr = this->_components[name].get();
+    if (ptr->getType() & INPUT)
+        this->_inputs.push_back(ptr);
+    return *ptr;
 }
 
 void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp)
