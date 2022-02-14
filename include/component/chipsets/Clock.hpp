@@ -15,7 +15,7 @@ namespace nts {
             Clock();
             ~Clock() = default;
 
-            void update();
+            void simulate(std::size_t tick);
 
         protected:
         private:

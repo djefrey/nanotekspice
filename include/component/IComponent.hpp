@@ -10,11 +10,13 @@
 #include <cstddef>
 #include <optional>
 #include <exception>
+#include <memory>
 
 #include "Tristate.hpp"
 
 namespace nts {
     typedef struct Connection_s Connection;
+    typedef std::size_t PinId;
 
     enum ComponentType {
         COMPONENT = 0,
@@ -35,28 +37,23 @@ namespace nts {
         public:
             virtual ~IComponent() = default;
 
-            virtual void simulate(std::size_t tick) = 0;
-            virtual Tristate compute(std::size_t pin) = 0;
-            virtual void setLink(std::size_t pin, IComponent &other, std::size_t otherPin) = 0;
+            virtual void simulate(std::size_t) = 0;
+            virtual Tristate compute(PinId) = 0;
+            virtual void setLink(PinId, IComponent&, PinId) = 0;
             virtual void dump() const = 0;
 
-            virtual void update() = 0;
-
-            virtual std::vector<std::size_t> getUpdatedPins() const = 0;
-
-            virtual void setStateAt(std::size_t pin, Tristate state) = 0;
-
-            virtual Connection getConnectionAt(std::size_t pin) const = 0;
-            virtual Connection getConnectionWith(IComponent *component) const = 0;
-            virtual void setConnectionAt(std::size_t pin, Connection connection) = 0;
-            virtual std::vector<IComponent*> getConnections() const = 0;
-
-            virtual std::string getName() const = 0;
             virtual ComponentType getType() const = 0;
+            virtual std::string getModel() const = 0;
+            virtual std::string getName() const = 0;
+
+            virtual void setName(std::string name) = 0;
+            virtual Connection getConnectionAt(PinId) const = 0;
+            virtual void setConnectionAt(PinId pin, IComponent &component, PinId otherPin) = 0;
+            virtual std::vector<std::size_t> getUpdatedPins() const = 0;
     };
 
     struct Connection_s {
-        IComponent *component;
-        std::size_t toPin;
+        IComponent *component = nullptr;
+        PinId pin = SIZE_MAX;
     };
 }

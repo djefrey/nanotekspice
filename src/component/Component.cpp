@@ -9,23 +9,13 @@
 #include <algorithm>
 #include "component/Component.hpp"
 
-nts::Component::Component(ComponentType type, std::string name, std::size_t nbPins)
-    : _type(type), _name(name), _nbPins(nbPins)
+nts::Component::Component(ComponentType type, std::string model, std::size_t nbPins)
+    : _type(type), _model(model), _name(model), _nbPins(nbPins)
 {
     _states.resize(nbPins);
     _connections.resize(nbPins);
-    for (std::size_t i = 0; i < nbPins; i++) {
+    for (std::size_t i = 0; i < nbPins; i++)
         _states[i] = UNDEFINED;
-        _connections[i] = {nullptr, SIZE_MAX};
-    }
-}
-
-void nts::Component::simulate(std::size_t tick)
-{
-    for (size_t t = 0; t < tick; t++) {
-        clearUpdatedPins();
-        update();
-    }
 }
 
 nts::Tristate nts::Component::compute(std::size_t pin)
@@ -39,15 +29,16 @@ void nts::Component::setLink(std::size_t pin, nts::IComponent &other, std::size_
 {
     if (this->getConnectionAt(pin).component == nullptr
     && other.getConnectionAt(otherPin).component == nullptr) {
-       this->setConnectionAt(pin, {&other, otherPin});
-        other.setConnectionAt(otherPin, {this, pin});
+        this->setConnectionAt(pin, other, otherPin);
+        other.setConnectionAt(otherPin, *this, pin);
     }
 }
 
 void nts::Component::dump() const
 {
     std::cout
-    << "Component: " << this->_name << "\n"
+    << "Component: " << this->_model << "\n"
+    << "Key: " << this->_name << "\n"
     << "Number of pins: " << this->_nbPins << "\n"
     << "States:\n";
     for (std::size_t i = 0; i < _nbPins; i++)
@@ -61,53 +52,35 @@ void nts::Component::dump() const
     }
 }
 
-std::vector<std::size_t> nts::Component::getUpdatedPins() const
+void nts::Component::setName(std::string name)
 {
-    return this->_updatedPins;
+    this->_name = name;
 }
 
-void nts::Component::setStateAt(std::size_t pin, nts::Tristate state)
+nts::Connection nts::Component::getConnectionAt(PinId pin) const
 {
     if (pin >= this->_nbPins)
-        throw nts::NtsError("Component::setStateAt()", "Invalid pin");
-    if (this->_states[pin]!= state) {
-        if (std::find(this->_updatedPins.begin(), this->_updatedPins.end(), pin) == this->_updatedPins.end())
-            this->_updatedPins.push_back(pin);
-    }
-    this->_states[pin] = state;
-}
-
-nts::Connection nts::Component::getConnectionAt(std::size_t pin) const
-{
-    if (pin >= this->_nbPins)
-        throw nts::NtsError("Component::getConnectionAt()", "Invalid pin");
+        throw NtsError("Component::getConnectionAt()", "Invalid pin");
     return this->_connections[pin];
 }
 
-nts::Connection nts::Component::getConnectionWith(nts::IComponent *component) const
-{
-    for (Connection conn : _connections) {
-        if (conn.component == component)
-            return conn;
-    }
-    return {nullptr, SIZE_MAX};
-}
-
-void nts::Component::setConnectionAt(std::size_t pin, nts::Connection connection)
+void nts::Component::setConnectionAt(nts::PinId pin, nts::IComponent &component, nts::PinId otherPin)
 {
     if (pin >= this->_nbPins)
-        throw nts::NtsError("Component::setConnectionAt()", "Invalid pin");
-    this->_connections[pin] = connection;
+        throw NtsError("Component::setConnectionAt()", "Invalid pin");
+    this->_connections[pin] = {&component, otherPin};
 }
 
-std::vector<nts::IComponent*> nts::Component::getConnections() const
+void nts::Component::setStateAt(PinId pin, Tristate state)
 {
-    std::vector<IComponent*> comps;
+    if (pin >= this->_nbPins)
+        throw NtsError("Component::setStateAt()", "Invalid pin");
+    this->_states[pin] = state;
+}
 
-    for (Connection conn : _connections) {
-        comps.push_back(conn.component);
-    }
-    return comps;
+std::vector<std::size_t> nts::Component::getUpdatedPins() const
+{
+    return this->_updatedPins;
 }
 
 void nts::Component::clearUpdatedPins()

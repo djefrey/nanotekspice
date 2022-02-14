@@ -11,8 +11,9 @@ nts::TrueInput::TrueInput() : Component(INPUT, "TrueInput", 1)
 {
 }
 
-void nts::TrueInput::update()
+void nts::TrueInput::simulate(std::size_t tick)
 {
+    (void) tick;
     setStateAt(0, TRUE);
 }
 
@@ -20,7 +21,9 @@ nts::FalseInput::FalseInput() : Component(INPUT, "FalseInput", 1)
 {
 }
 
-void nts::FalseInput::update()
+void nts::FalseInput::simulate(std::size_t tick)
 {
+    (void) tick;
+    clearUpdatedPins();
     setStateAt(0, FALSE);
 }

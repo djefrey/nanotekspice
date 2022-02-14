@@ -30,9 +30,5 @@ int main(void)
 
     chipset.setLink(3, out0, 0);
 
-    circuit.addInput(in0);
-    circuit.addInput(clock);
-    circuit.addInput(in2);
-
     circuit.simulate(5);
 }

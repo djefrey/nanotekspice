@@ -15,7 +15,7 @@ namespace nts {
             Chipset4081();
             ~Chipset4081() = default;
 
-            void update();
+            void simulate(std::size_t tick);
 
         protected:
         private:

@@ -8,42 +8,37 @@
 #include <algorithm>
 #include "component/Circuit.hpp"
 
-nts::Circuit::Circuit(ComponentType type, std::string name, std::size_t nbPins) : Component(type, name, nbPins)
+nts::Circuit::Circuit(ComponentType type, std::string model, std::size_t nbPins)
+    : Component(type, model, nbPins)
 {
 }
 
-#include <iostream>
-
-void nts::Circuit::update()
+void nts::Circuit::simulate(std::size_t tick)
 {
     std::vector<IComponent*> toUpdate = this->_inputs;
     std::vector<IComponent*> nextUpdate;
 
+    (void) tick;
+    clearUpdatedPins();
     while (!toUpdate.empty()) {
         for (IComponent *comp : toUpdate) {
             comp->simulate(1);
-            addUpdatedPinsToUpdate(nextUpdate, comp);
+            addUpdatedPinsToUpdate(nextUpdate, *comp);
         }
         toUpdate = nextUpdate;
         nextUpdate.clear();
     }
 }
 
-void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent *comp)
+void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp)
 {
     Connection conn;
 
-    for (std::size_t pin : comp->getUpdatedPins()) {
-        conn = comp->getConnectionAt(pin);
+    for (std::size_t pin : comp.getUpdatedPins()) {
+        conn = comp.getConnectionAt(pin);
         if (conn.component
         &&  std::find(update.begin(), update.end(), conn.component) == update.end()) {
             update.push_back(conn.component);
         }
     }
-}
-
-void nts::Circuit::addInput(IComponent &comp)
-{
-    if (comp.getType() & INPUT)
-        this->_inputs.push_back(&comp);
 }

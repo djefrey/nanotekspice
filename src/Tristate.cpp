@@ -58,13 +58,13 @@ std::ostream &nts::operator<<(std::ostream &s, nts::Tristate value)
 {
     switch (value) {
         case nts::Tristate::TRUE:
-            s << "True";
+            s << "1";
             break;
         case nts::Tristate::FALSE:
-            s << "False";
+            s << "0";
             break;
         case nts::Tristate::UNDEFINED:
-            s << "Undefined";
+            s << "U";
             break;
     }
     return s;

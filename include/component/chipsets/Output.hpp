@@ -15,7 +15,7 @@ namespace nts {
             Output();
             ~Output() = default;
 
-            void update();
+            void simulate(std::size_t tick);
 
         protected:
         private:

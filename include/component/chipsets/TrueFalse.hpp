@@ -15,7 +15,7 @@ namespace nts {
             TrueInput();
             ~TrueInput() = default;
 
-            void update();
+            void simulate(std::size_t tick);
     };
 
     class FalseInput : public Component {
@@ -23,6 +23,6 @@ namespace nts {
             FalseInput();
             ~FalseInput() = default;
 
-            void update();
+            void simulate(std::size_t tick);
     };
 }
