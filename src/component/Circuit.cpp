@@ -6,6 +6,7 @@
 */
 
 #include <algorithm>
+#include <iostream>
 #include "component/Circuit.hpp"
 #include "component/ComponentFactory.hpp"
 
@@ -28,6 +29,16 @@ void nts::Circuit::simulate(std::size_t tick)
         }
         toUpdate = nextUpdate;
         nextUpdate.clear();
+    }
+}
+
+void nts::Circuit::dump() const
+{
+    Component::dump();
+    std::cout << "\n";
+    for (auto it = _components.begin(); it != _components.end(); it++) {
+        it->second->dump();
+        std::cout << "\n";
     }
 }
 

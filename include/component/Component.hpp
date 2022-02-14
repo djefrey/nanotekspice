@@ -18,7 +18,7 @@ namespace nts {
 
             Tristate compute(std::size_t pin);
             void setLink(std::size_t pin, IComponent &other, std::size_t otherPin);
-            void dump() const;
+            virtual void dump() const;
 
             ComponentType getType() const { return _type; };
             std::string getModel() const { return _model; };

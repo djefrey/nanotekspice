@@ -30,4 +30,8 @@ int main(void)
     chipset.setLink(3, out0, 0);
 
     circuit.simulate(0);
+    circuit.simulate(1);
+    circuit.simulate(2);
+
+    circuit.dump();
 }

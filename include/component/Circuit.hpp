@@ -18,6 +18,7 @@ namespace nts {
             ~Circuit() = default;
 
             void simulate(std::size_t tick);
+            void dump() const override;
             IComponent &createComponent(const std::string &model, std::string name);
 
         protected:

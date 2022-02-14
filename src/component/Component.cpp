@@ -38,7 +38,7 @@ void nts::Component::dump() const
 {
     std::cout
     << "Component: " << this->_model << "\n"
-    << "Key: " << this->_name << "\n"
+    << "Name: " << this->_name << "\n"
     << "Number of pins: " << this->_nbPins << "\n"
     << "States:\n";
     for (std::size_t i = 0; i < _nbPins; i++)
@@ -50,6 +50,7 @@ void nts::Component::dump() const
         else
             std::cout << " - " << i << " : None\n";
     }
+    std::cout << "\n";
 }
 
 void nts::Component::setName(std::string name)
