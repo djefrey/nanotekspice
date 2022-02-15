@@ -40,15 +40,15 @@ void nts::Component::dump() const
     << "Component: " << this->_model << "\n"
     << "Name: " << this->_name << "\n"
     << "Number of pins: " << this->_nbPins << "\n"
-    << "States:\n";
-    for (std::size_t i = 0; i < _nbPins; i++)
-        std::cout << " - " << i << " : " << this->_states[i] << "\n";
-    std::cout << "Connections:\n";
+    << "Pins:\n";
     for (std::size_t i = 0; i < _nbPins; i++) {
+        std::cout << " - " << i << " : " << this->_states[i];
         if (this->_connections[i].component != nullptr)
-            std::cout << " - " << i << " : " << this->_connections[i].component->getName() << "\n";
+            std::cout << " - "
+            << this->_connections[i].component->getName()
+            << " (" << this->_connections[i].pin << ")\n";
         else
-            std::cout << " - " << i << " : None\n";
+            std::cout << " - None\n";
     }
     std::cout << "\n";
 }
