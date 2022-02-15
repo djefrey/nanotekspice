@@ -5,7 +5,7 @@
 ** Clock
 */
 
-#include "component/chipsets/Clock.hpp"
+#include "component/inputs/Clock.hpp"
 
 nts::Clock::Clock() : InputComponent("Clock")
 {

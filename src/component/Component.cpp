@@ -9,8 +9,8 @@
 #include <algorithm>
 #include "component/Component.hpp"
 
-nts::Component::Component(ComponentType type, std::string model, std::size_t nbPins)
-    : _type(type), _model(model), _name(model), _nbPins(nbPins)
+nts::Component::Component(std::string model, std::size_t nbPins)
+    : _model(model), _name(model), _nbPins(nbPins)
 {
     _states.resize(nbPins);
     _connections.resize(nbPins);

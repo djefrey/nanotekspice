@@ -10,14 +10,13 @@
 #include "component/Circuit.hpp"
 #include "component/ComponentFactory.hpp"
 
-nts::Circuit::Circuit(ComponentType type, std::string model, std::size_t nbPins)
-    : Component(type, model, nbPins)
+nts::Circuit::Circuit(std::string model, std::size_t nbPins) : Component(model, nbPins)
 {
 }
 
 void nts::Circuit::simulate(std::size_t tick)
 {
-    std::vector<IComponent*> toUpdate = this->_inputs;
+    std::vector<IComponent*> toUpdate = *reinterpret_cast<std::vector<IComponent*>*>(&this->_inputs);
     std::vector<IComponent*> nextUpdate;
 
     (void) tick;
@@ -46,13 +45,39 @@ nts::IComponent &nts::Circuit::createComponent(const std::string &model, std::st
 {
     auto comp = ComponentFactory::get().createComponent(model);
     IComponent *ptr;
+    InputComponent *inPtr;
+    OutputComponent *outPtr;
 
     comp->setName(name);
     this->_components[name] = std::move(comp);
     ptr = this->_components[name].get();
-    if (ptr->getType() & INPUT)
-        this->_inputs.push_back(ptr);
+    if ((inPtr = dynamic_cast<InputComponent*>(ptr)))
+        this->_inputs.push_back(inPtr);
+    if ((outPtr = dynamic_cast<OutputComponent*>(ptr)))
+        this->_outputs.push_back(outPtr);
     return *ptr;
+}
+
+void nts::Circuit::setInputState(const std::string &name, Tristate state)
+{
+    for (InputComponent *input : this->_inputs) {
+        if (input->getName() == name) {
+            input->setValue(state);
+            return;
+        }
+    }
+    throw NtsError("Circuit::setInputState()", "Input not found");
+}
+
+void nts::Circuit::printInOut() const
+{
+    std::cout << "inputs(s):\n";
+    for (InputComponent *input : this->_inputs)
+        std::cout << "  " << input->getName() <<": " << input->getValue() << "\n";
+    std::cout << "output(s):\n";
+    for (OutputComponent *output : this->_outputs)
+        std::cout << "  " << output->getName() << ": " << output->getValue() << "\n";
+    std::cout.flush();
 }
 
 void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp)

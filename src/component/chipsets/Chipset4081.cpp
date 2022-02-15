@@ -8,7 +8,7 @@
 #include <map>
 #include "component/chipsets/Chipset4081.hpp"
 
-nts::Chipset4081::Chipset4081() : Component(COMPONENT, "4081", 14)
+nts::Chipset4081::Chipset4081() : Component("4081", 14)
 {
 }
 

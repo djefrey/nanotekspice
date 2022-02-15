@@ -17,12 +17,4 @@ namespace nts {
 
             void simulate(std::size_t tick);
     };
-
-    class FalseInput : public InputComponent {
-        public:
-            FalseInput();
-            ~FalseInput() = default;
-
-            void simulate(std::size_t tick);
-    };
 }

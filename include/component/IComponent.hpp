@@ -18,12 +18,6 @@ namespace nts {
     typedef struct Connection_s Connection;
     typedef std::size_t PinId;
 
-    enum ComponentType {
-        COMPONENT = 0,
-        INPUT = 1,
-        OUTPUT = 2,
-    };
-
     class NtsError : public std::exception {
         public:
             NtsError(std::string loc, std::string msg) : _err("Error at " + loc + " : " + msg) {};
@@ -42,7 +36,6 @@ namespace nts {
             virtual void setLink(PinId, IComponent&, PinId) = 0;
             virtual void dump() const = 0;
 
-            virtual ComponentType getType() const = 0;
             virtual std::string getModel() const = 0;
             virtual std::string getName() const = 0;
 

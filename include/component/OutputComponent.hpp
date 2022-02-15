@@ -10,10 +10,10 @@
 #include "component/Component.hpp"
 
 namespace nts {
-    class Output : public Component {
+    class OutputComponent : public Component {
         public:
-            Output();
-            ~Output() = default;
+            OutputComponent();
+            ~OutputComponent() = default;
 
             void simulate(std::size_t tick);
             Tristate getValue();

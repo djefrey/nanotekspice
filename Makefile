@@ -10,11 +10,14 @@ SRC					=	src/Tristate.cpp							\
 						src/component/Component.cpp					\
 						src/component/ComponentFactory.cpp			\
 						src/component/Circuit.cpp					\
-						src/component/InputComponent.cpp			\
-						src/component/chipsets/Chipset4081.cpp		\
-						src/component/chipsets/TrueFalse.cpp		\
-						src/component/chipsets/Clock.cpp			\
-						src/component/chipsets/Output.cpp
+						src/component/OutputComponent.cpp
+
+SRC					+=	src/component/InputComponent.cpp			\
+						src/component/inputs/TrueInput.cpp			\
+						src/component/inputs/FalseInput.cpp			\
+						src/component/inputs/Clock.cpp
+
+SRC					+=	src/component/chipsets/Chipset4081.cpp
 
 INC_DIR				=	./include
 

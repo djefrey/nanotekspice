@@ -2,20 +2,10 @@
 ** EPITECH PROJECT, 2022
 ** B-OOP-400-STG-4-1-tekspice-jeffrey.winkler
 ** File description:
-** TrueFalse
+** FalseInput
 */
 
-#include "component/chipsets/TrueFalse.hpp"
-
-nts::TrueInput::TrueInput() : InputComponent("TrueInput")
-{
-}
-
-void nts::TrueInput::simulate(std::size_t tick)
-{
-    _state = TRUE;
-    InputComponent::simulate(tick);
-}
+#include "component/inputs/FalseInput.hpp"
 
 nts::FalseInput::FalseInput() : InputComponent("FalseInput")
 {

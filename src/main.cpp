@@ -6,14 +6,10 @@
 */
 
 #include "component/Circuit.hpp"
-#include "component/chipsets/Clock.hpp"
-#include "component/chipsets/TrueFalse.hpp"
-#include "component/chipsets/Output.hpp"
-#include "component/chipsets/Chipset4081.hpp"
 
 int main(void)
 {
-    nts::Circuit circuit(nts::ComponentType::COMPONENT, "Main Circuit", 0);
+    nts::Circuit circuit("Main Circuit", 0);
 
     nts::IComponent &in0 = circuit.createComponent(std::string("true"), "in0");
     nts::IComponent &clock = circuit.createComponent(std::string("clock"), "clock");
@@ -29,9 +25,10 @@ int main(void)
 
     chipset.setLink(3, out0, 0);
 
+    circuit.printInOut();
     circuit.simulate(0);
+    circuit.printInOut();
     circuit.simulate(1);
-    //circuit.simulate(2);
-
-    circuit.dump();
+    circuit.printInOut();
+    circuit.simulate(2);
 }

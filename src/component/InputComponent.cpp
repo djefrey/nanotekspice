@@ -7,8 +7,7 @@
 
 #include "component/InputComponent.hpp"
 
-nts::InputComponent::InputComponent(std::string model)
-    : Component(INPUT, model, 1)
+nts::InputComponent::InputComponent(std::string model) : Component(model, 1)
 {
 }
 

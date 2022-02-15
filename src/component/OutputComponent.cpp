@@ -6,13 +6,13 @@
 */
 
 #include <iostream>
-#include "component/chipsets/Output.hpp"
+#include "component/OutputComponent.hpp"
 
-nts::Output::Output() : Component(OUTPUT, "Output", 1)
+nts::OutputComponent::OutputComponent() : Component("Output", 1)
 {
 }
 
-void nts::Output::simulate(std::size_t tick)
+void nts::OutputComponent::simulate(std::size_t tick)
 {
     Connection conn = this->getConnectionAt(0);
 
@@ -22,7 +22,7 @@ void nts::Output::simulate(std::size_t tick)
         setStateAt(0, conn.component->compute(conn.pin), false);
 }
 
-nts::Tristate nts::Output::getValue()
+nts::Tristate nts::OutputComponent::getValue()
 {
     return compute(0);
 }

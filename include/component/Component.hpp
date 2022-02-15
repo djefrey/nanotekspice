@@ -20,7 +20,6 @@ namespace nts {
             void setLink(std::size_t pin, IComponent &other, std::size_t otherPin);
             virtual void dump() const;
 
-            ComponentType getType() const { return _type; };
             std::string getModel() const { return _model; };
             std::string getName() const { return _name; };
 
@@ -33,12 +32,11 @@ namespace nts {
             std::vector<std::size_t> getUpdatedPins() const;
 
         protected:
-            Component(ComponentType type, std::string model, std::size_t nbPins);
+            Component(std::string model, std::size_t nbPins);
 
             void clearUpdatedPins();
 
         private:
-            ComponentType _type;
             std::string _model;
             std::string _name;
             std::size_t _nbPins;
