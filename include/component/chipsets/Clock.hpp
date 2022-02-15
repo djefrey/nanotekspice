@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include "component/Component.hpp"
+#include "component/InputComponent.hpp"
 
 namespace nts {
-    class Clock : public Component {
+    class Clock : public InputComponent {
         public:
             Clock();
             ~Clock() = default;
@@ -19,6 +19,5 @@ namespace nts {
 
         protected:
         private:
-            Tristate _state = FALSE;
     };
 }

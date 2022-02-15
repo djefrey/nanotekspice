@@ -7,14 +7,13 @@
 
 #include "component/chipsets/Clock.hpp"
 
-nts::Clock::Clock() : Component(INPUT, "Clock", 1)
+nts::Clock::Clock() : InputComponent("Clock")
 {
+    _state = FALSE;
 }
 
 void nts::Clock::simulate(std::size_t tick)
 {
-    (void) tick;
-    clearUpdatedPins();
-    setStateAt(0, this->_state);
+    InputComponent::simulate(tick);
     this->_state = not_gate(this->_state);
 }

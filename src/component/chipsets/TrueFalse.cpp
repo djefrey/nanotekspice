@@ -7,23 +7,22 @@
 
 #include "component/chipsets/TrueFalse.hpp"
 
-nts::TrueInput::TrueInput() : Component(INPUT, "TrueInput", 1)
+nts::TrueInput::TrueInput() : InputComponent("TrueInput")
 {
 }
 
 void nts::TrueInput::simulate(std::size_t tick)
 {
-    (void) tick;
-    setStateAt(0, TRUE);
+    _state = TRUE;
+    InputComponent::simulate(tick);
 }
 
-nts::FalseInput::FalseInput() : Component(INPUT, "FalseInput", 1)
+nts::FalseInput::FalseInput() : InputComponent("FalseInput")
 {
 }
 
 void nts::FalseInput::simulate(std::size_t tick)
 {
-    (void) tick;
-    clearUpdatedPins();
-    setStateAt(0, FALSE);
+    _state = TRUE;
+    InputComponent::simulate(tick);
 }

@@ -72,11 +72,11 @@ void nts::Component::setConnectionAt(nts::PinId pin, nts::IComponent &component,
     this->_connections[pin] = {&component, otherPin};
 }
 
-void nts::Component::setStateAt(PinId pin, Tristate state)
+void nts::Component::setStateAt(PinId pin, Tristate state, bool update)
 {
     if (pin >= this->_nbPins)
         throw NtsError("Component::setStateAt()", "Invalid pin");
-    if (this->_states[pin] != state)
+    if (update && this->_states[pin] != state)
         this->_updatedPins.push_back(pin);
     this->_states[pin] = state;
 }

@@ -28,6 +28,8 @@ void nts::Chipset4081::simulate(std::size_t tick)
         connB = this->getConnectionAt(inputs[i * 2 + 1]);
         stateA = connA.component ? connA.component->compute(connA.pin) : UNDEFINED;
         stateB = connA.component ? connB.component->compute(connB.pin) : UNDEFINED;
-        this->setStateAt(outputs[i], and_gate(stateA, stateB));
+        this->setStateAt(inputs[i * 2], stateA, false);
+        this->setStateAt(inputs[i * 2 + 1], stateB, false);
+        this->setStateAt(outputs[i], and_gate(stateA, stateB), true);
     }
 }

@@ -31,7 +31,7 @@ int main(void)
 
     circuit.simulate(0);
     circuit.simulate(1);
-    circuit.simulate(2);
+    //circuit.simulate(2);
 
     circuit.dump();
 }

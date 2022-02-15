@@ -15,13 +15,14 @@ nts::Output::Output() : Component(OUTPUT, "Output", 1)
 void nts::Output::simulate(std::size_t tick)
 {
     Connection conn = this->getConnectionAt(0);
-    Tristate state;
 
     (void) tick;
     clearUpdatedPins();
-    if (conn.component) {
-        state = conn.component->compute(conn.pin);
-        std::cout << "Output :" << state << std::endl;
-    }
+    if (conn.component)
+        setStateAt(0, conn.component->compute(conn.pin), false);
 }
 
+nts::Tristate nts::Output::getValue()
+{
+    return compute(0);
+}

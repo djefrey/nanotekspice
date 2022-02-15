@@ -29,7 +29,7 @@ namespace nts {
             void setName(std::string name);
             Connection getConnectionAt(PinId pin) const;
             void setConnectionAt(PinId pin, IComponent &component, PinId otherPin);
-            void setStateAt(PinId, Tristate state);
+            void setStateAt(PinId, Tristate state, bool update);
             std::vector<std::size_t> getUpdatedPins() const;
 
         protected:
