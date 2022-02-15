@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include "NTS.hpp"
 #include "component/Component.hpp"
 
 nts::Component::Component(std::string model, std::size_t nbPins)

@@ -8,8 +8,6 @@
 #pragma once
 
 #include <cstddef>
-#include <optional>
-#include <exception>
 #include <memory>
 
 #include "Tristate.hpp"
@@ -17,15 +15,6 @@
 namespace nts {
     typedef struct Connection_s Connection;
     typedef std::size_t PinId;
-
-    class NtsError : public std::exception {
-        public:
-            NtsError(std::string loc, std::string msg) : _err("Error at " + loc + " : " + msg) {};
-            const char *what() const noexcept override { return _err.c_str(); };
-
-        private:
-            std::string _err;
-    };
 
     class IComponent {
         public:

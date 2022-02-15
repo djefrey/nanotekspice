@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include "NTS.hpp"
 #include "component/Circuit.hpp"
 #include "component/ComponentFactory.hpp"
 
@@ -73,7 +74,7 @@ void nts::Circuit::setInputState(const std::string &name, Tristate state)
 
 void nts::Circuit::printInOut() const
 {
-    std::cout << "inputs(s):\n";
+    std::cout << "input(s):\n";
     for (InputComponent *input : this->_inputs)
         std::cout << "  " << input->getName() <<": " << input->getValue() << "\n";
     std::cout << "output(s):\n";

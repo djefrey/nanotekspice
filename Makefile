@@ -6,7 +6,8 @@
 ##
 
 MAIN_SRC			=	src/main.cpp
-SRC					=	src/Tristate.cpp							\
+SRC					=	src/NTS.cpp									\
+						src/Tristate.cpp							\
 						src/component/Component.cpp					\
 						src/component/ComponentFactory.cpp			\
 						src/component/Circuit.cpp					\

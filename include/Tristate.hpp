@@ -24,5 +24,6 @@ namespace nts {
     Tristate  nor_gate(Tristate a, Tristate b);
     Tristate  xor_gate(Tristate a, Tristate b);
 
+    Tristate get_state_from_char(char c);
     std::ostream &operator<<(std::ostream &s, Tristate value);
 }

@@ -7,6 +7,7 @@
 
 #include <algorithm>
 
+#include "NTS.hpp"
 #include "component/ComponentFactory.hpp"
 
 #include "component/inputs/TrueInput.hpp"

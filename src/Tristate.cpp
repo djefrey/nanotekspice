@@ -6,6 +6,7 @@
 */
 
 #include "Tristate.hpp"
+#include "NTS.hpp"
 
 nts::Tristate nts::not_gate(nts::Tristate a)
 {
@@ -52,6 +53,20 @@ nts::Tristate nts::nor_gate(nts::Tristate a, nts::Tristate b)
 nts::Tristate nts::xor_gate(nts::Tristate a, nts::Tristate b)
 {
     return and_gate(or_gate(a, b), nand_gate(a, b));
+}
+
+nts::Tristate nts::get_state_from_char(char c)
+{
+    switch (c) {
+        case '0':
+            return FALSE;
+        case '1':
+            return TRUE;
+        case 'U':
+            return UNDEFINED;
+        default:
+            throw nts::NtsError("get_state_from_char()", "Invalid char");
+    }
 }
 
 std::ostream &nts::operator<<(std::ostream &s, nts::Tristate value)
