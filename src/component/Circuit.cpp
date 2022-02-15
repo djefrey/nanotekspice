@@ -48,6 +48,8 @@ nts::IComponent &nts::Circuit::createComponent(const std::string &model, std::st
     InputComponent *inPtr;
     OutputComponent *outPtr;
 
+    if (this->_components.find(name) != this->_components.end())
+        throw NtsError("Circuit::createComponent()", "Component with same name already exists");
     comp->setName(name);
     this->_components[name] = std::move(comp);
     ptr = this->_components[name].get();
