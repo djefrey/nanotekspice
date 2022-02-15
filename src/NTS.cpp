@@ -19,19 +19,22 @@ const std::map<std::string, nts::NTSFctPtr> nts::NTS::commandsList{
 
 nts::NTS::NTS() : _circuit("Main Circuit", 0)
 {
-    nts::IComponent &in0 = _circuit.createComponent(std::string("true"), "in0");
-    nts::IComponent &clock = _circuit.createComponent(std::string("clock"), "clock");
-    nts::IComponent &in2 = _circuit.createComponent(std::string("true"), "in2");
-    nts::IComponent &out0 = _circuit.createComponent(std::string("output"), "out0");
-    nts::IComponent &chipset = _circuit.createComponent(std::string("4081"), "and");
+    IComponent &clock = _circuit.createComponent(std::string("clock"), "clock");
+    IComponent &in0 = _circuit.createComponent(std::string("input"), "in0");
+    IComponent &in1 = _circuit.createComponent(std::string("input"), "in1");
+    IComponent &in2 = _circuit.createComponent(std::string("input"), "in2");
+    IComponent &out0 = _circuit.createComponent(std::string("output"), "out0");
+    IComponent &out1 = _circuit.createComponent(std::string("output"), "out1");
+    IComponent &ff = _circuit.createComponent(std::string("4013"), "flipflop");
 
-    chipset.setLink(0, in0, 0);
-    chipset.setLink(1, clock, 0);
+    ff.setLink(0, out0, 0);
+    ff.setLink(1, out1, 0);
 
-    chipset.setLink(2, chipset, 4);
-    chipset.setLink(5, in2, 0);
+    ff.setLink(2, clock, 0);
 
-    chipset.setLink(3, out0, 0);
+    ff.setLink(3, in0, 0);
+    ff.setLink(4, in1, 0);
+    ff.setLink(5, in2, 0);
 }
 
 nts::NTS::NTS(const std::string &config) : _circuit("Main Circuit", 0)

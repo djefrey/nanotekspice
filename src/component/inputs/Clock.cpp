@@ -9,7 +9,6 @@
 
 nts::Clock::Clock() : InputComponent("Clock")
 {
-    _state = FALSE;
 }
 
 void nts::Clock::simulate(std::size_t tick)

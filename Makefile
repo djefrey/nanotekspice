@@ -18,7 +18,8 @@ SRC					+=	src/component/InputComponent.cpp			\
 						src/component/inputs/FalseInput.cpp			\
 						src/component/inputs/Clock.cpp
 
-SRC					+=	src/component/chipsets/Chipset4081.cpp
+SRC					+=	src/component/chipsets/And4081.cpp			\
+						src/component/chipsets/FlipFlop4013.cpp
 
 INC_DIR				=	./include
 

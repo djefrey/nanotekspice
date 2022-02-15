@@ -35,6 +35,7 @@ namespace nts {
             Component(std::string model, std::size_t nbPins);
 
             void clearUpdatedPins();
+            Tristate readStateAt(PinId pin);
 
         private:
             std::string _model;

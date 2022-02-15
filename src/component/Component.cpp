@@ -91,3 +91,16 @@ void nts::Component::clearUpdatedPins()
 {
     this->_updatedPins.clear();
 }
+
+nts::Tristate nts::Component::readStateAt(nts::PinId pin)
+{
+    nts::Connection conn;
+    Tristate state;
+
+    if (pin >= this->_nbPins)
+        throw NtsError("Component::readStateAt()", "Invalid pin");
+    conn = this->getConnectionAt(pin);
+    state = conn.component ? conn.component->compute(conn.pin) : UNDEFINED;
+    this->setStateAt(pin, state, false);
+    return state;
+}
