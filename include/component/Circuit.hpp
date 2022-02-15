@@ -32,6 +32,9 @@ namespace nts {
 
             void addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp);
 
+            void insertInput(InputComponent*);
+            void insertOutput(OutputComponent*);
+
         private:
     };
 }

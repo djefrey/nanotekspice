@@ -52,9 +52,9 @@ nts::IComponent &nts::Circuit::createComponent(const std::string &model, std::st
     this->_components[name] = std::move(comp);
     ptr = this->_components[name].get();
     if ((inPtr = dynamic_cast<InputComponent*>(ptr)))
-        this->_inputs.push_back(inPtr);
+        this->insertInput(inPtr);
     if ((outPtr = dynamic_cast<OutputComponent*>(ptr)))
-        this->_outputs.push_back(outPtr);
+        this->insertOutput(outPtr);
     return *ptr;
 }
 
@@ -91,4 +91,28 @@ void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, ICom
             update.push_back(conn.component);
         }
     }
+}
+
+void nts::Circuit::insertInput(InputComponent *input)
+{
+    auto pos = this->_inputs.begin();
+    std::string name = input->getName();
+
+    for (; pos != this->_inputs.end(); pos++) {
+        if ((*pos.base())->getName().compare(name) > 0)
+            break;
+    }
+    this->_inputs.insert(pos, input);
+}
+
+void nts::Circuit::insertOutput(OutputComponent *output)
+{
+    auto pos = this->_outputs.begin();
+    std::string name = output->getName();
+
+    for (; pos != this->_outputs.end(); pos++) {
+        if ((*pos.base())->getName().compare(name) > 0)
+            break;
+    }
+    this->_outputs.insert(pos, output);
 }
