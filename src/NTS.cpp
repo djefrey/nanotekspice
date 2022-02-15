@@ -96,7 +96,7 @@ void nts::NTS::displayCmd()
 
 void nts::NTS::loopCmd()
 {
-    while (!std::cin.eof()) {
+    while (true) {
         simulateCmd();
         displayCmd();
     }
