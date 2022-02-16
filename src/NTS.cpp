@@ -21,20 +21,10 @@ nts::NTS::NTS() : _circuit("Main Circuit", 0)
 {
     IComponent &clock = _circuit.createComponent(std::string("clock"), "clock");
     IComponent &in0 = _circuit.createComponent(std::string("input"), "in0");
-    IComponent &in1 = _circuit.createComponent(std::string("input"), "in1");
-    IComponent &in2 = _circuit.createComponent(std::string("input"), "in2");
-    IComponent &out0 = _circuit.createComponent(std::string("output"), "out0");
-    IComponent &out1 = _circuit.createComponent(std::string("output"), "out1");
-    IComponent &ff = _circuit.createComponent(std::string("4013"), "flipflop");
+    IComponent &counter = _circuit.createComponent(std::string("4040"), "counter");
 
-    ff.setLink(0, out0, 0);
-    ff.setLink(1, out1, 0);
-
-    ff.setLink(2, clock, 0);
-
-    ff.setLink(3, in0, 0);
-    ff.setLink(4, in1, 0);
-    ff.setLink(5, in2, 0);
+    counter.setLink(9, clock, 0);
+    counter.setLink(10, in0, 0);
 }
 
 nts::NTS::NTS(const std::string &config) : _circuit("Main Circuit", 0)

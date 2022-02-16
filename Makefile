@@ -19,7 +19,8 @@ SRC					+=	src/component/InputComponent.cpp			\
 						src/component/inputs/Clock.cpp
 
 SRC					+=	src/component/chipsets/And4081.cpp			\
-						src/component/chipsets/FlipFlop4013.cpp
+						src/component/chipsets/FlipFlop4013.cpp		\
+						src/component/chipsets/Counter4040.cpp
 
 INC_DIR				=	./include
 
