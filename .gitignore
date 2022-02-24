@@ -2,3 +2,4 @@
 nanotekspice
 vgcore*
 .vscode
+**/*.nts

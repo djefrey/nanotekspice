@@ -14,7 +14,7 @@ nts::Parser::Parser(nts::Circuit &circuit) : _circuit(circuit) {}
 void nts::Parser::Parse(const std::string &path)
 {
     std::regex skipComment("[#].*");
-    std::regex getInfo("\\.([A-Za-z]+)|([A-Za-z0-9]+)");
+    std::regex getInfo("\\.([A-Za-z]+)|([A-Za-z0-9_-]+)");
     std::ifstream file(path);
     std::stringstream stream;
     std::string content;
@@ -30,43 +30,10 @@ void nts::Parser::Parse(const std::string &path)
     ParseLinks(iter, end);
 }
 
-void nts::Parser::ParseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
-{
-    std::string tmp_comp1 = NULL;
-    std::string tmp_comp2 = NULL;
-    nts::PinId tmp_pin1 = NULL;
-    nts::PinId tmp_pin2 = NULL;
-    std::regex checkPin("[0-9]+");
-
-    if (*iter != ".links")
-        throw NtsError("Parser::Parse()", ".chipsets not found !");
-    iter++;
-    for (int i = 0; iter != end; iter++) {
-        if (i == 0) {
-            tmp_comp1 = *iter;
-            i++;
-        } else if (i == 1) {
-            /* if (!std::regex_match(*iter, *iter + 1, checkPin))
-                throw NtsError("Parser::ParseLinks()", "Invalid Pin!"); */
-            tmp_pin1 = std::stoi(*iter);
-            i++;
-        } else if (i == 2) {
-            tmp_comp2 = *iter;
-            i++;
-        } else {
-            /* if (!std::regex_match(*iter, *iter + 1, checkPin))
-                throw NtsError("Parser::ParseLinks()", "Invalid Pin!"); */
-            tmp_pin2 = std::stoi(*iter);
-            i = 0;
-            _circuit.setLink(tmp_comp1, tmp_comp2, tmp_pin1, tmp_pin2);
-        }
-    }
-}
-
 void nts::Parser::ParseChipset(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
 {
-    std::string tmp_model = NULL;
-    std::string tmp_name = NULL;
+    std::string model;
+    std::string name;
 
     if (*iter != ".chipsets")
         throw NtsError("Parser::Parse()", ".chipsets not found !");
@@ -75,12 +42,45 @@ void nts::Parser::ParseChipset(std::sregex_token_iterator &iter, std::sregex_tok
         if (*iter == ".links")
             return;
         if (i == 0) {
-            tmp_model = *iter;
+            model = iter->str();
             i++;
         } else {
-            tmp_name = *iter;
+            name = iter->str();
+            _circuit.createComponent(model, name);
             i = 0;
-            _circuit.createComponent(tmp_model, tmp_name);
+        }
+    }
+}
+
+void nts::Parser::ParseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
+{
+    std::string comp1;
+    std::string comp2;
+    nts::PinId pin1 = 0;
+    nts::PinId pin2 = 0;
+    std::regex checkPin("[0-9]+");
+
+    if (*iter != ".links")
+        throw NtsError("Parser::Parse()", ".links not found !");
+    iter++;
+    for (int i = 0; iter != end; iter++) {
+        if (i == 0) {
+            comp1 = iter->str();
+            i++;
+        } else if (i == 1) {
+            if (!std::regex_match(iter->first, iter->second, checkPin))
+                throw NtsError("Parser::ParseLinks()", "Invalid Pin!");
+            pin1 = std::stoi(iter->str()) - 1;
+            i++;
+        } else if (i == 2) {
+            comp2 = iter->str();
+            i++;
+        } else {
+            if (!std::regex_match(iter->first, iter->second, checkPin))
+                throw NtsError("Parser::ParseLinks()", "Invalid Pin!");
+            pin2 = std::stoi(iter->str()) - 1;
+            _circuit.setLink(comp1, comp2, pin1, pin2);
+            i = 0;
         }
     }
 }
