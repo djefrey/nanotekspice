@@ -24,6 +24,7 @@ namespace nts {
             IComponent &createComponent(const std::string &model, std::string name);
             void setInputState(const std::string &name, Tristate state);
             void printInOut() const;
+            void setLink(std::string &name1, std::string &name2, nts::PinId pin1, nts::PinId pin2);
 
         protected:
             std::map<std::string, std::unique_ptr<IComponent>> _components;
@@ -31,6 +32,7 @@ namespace nts {
             std::vector<OutputComponent*> _outputs;
 
             void addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp);
+            nts::IComponent &getComponentByName(std::string &name);
 
             void insertInput(InputComponent*);
             void insertOutput(OutputComponent*);

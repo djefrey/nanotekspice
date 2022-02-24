@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "NTS.hpp"
+#include "../include/Parser.hpp"
 
 const std::map<std::string, nts::NTSFctPtr> nts::NTS::commandsList{
     std::make_pair("simulate", &nts::NTS::simulateCmd),
@@ -32,6 +33,8 @@ nts::NTS::NTS() : _circuit("Main Circuit", 0)
 
 nts::NTS::NTS(const std::string &config) : _circuit("Main Circuit", 0)
 {
+    Parser parser(_circuit);
+    parser.Parse(config);
 }
 
 int nts::NTS::run()

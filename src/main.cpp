@@ -8,10 +8,10 @@
 #include <iostream>
 #include "NTS.hpp"
 
-int main(void)
+int main(int ac, char **av)
 {
     try {
-        nts::NTS nts;
+        nts::NTS nts{std::string(av[1])};
 
         return nts.run();
     } catch(const nts::NtsError &err) {

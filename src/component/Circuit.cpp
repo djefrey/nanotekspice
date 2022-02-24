@@ -119,3 +119,18 @@ void nts::Circuit::insertOutput(OutputComponent *output)
     }
     this->_outputs.insert(pos, output);
 }
+
+void nts::Circuit::setLink(std::string &name1, std::string &name2, nts::PinId pin1, nts::PinId pin2)
+{
+    IComponent &comp1 = getComponentByName(name1);
+    IComponent &comp2 = getComponentByName(name2);
+    comp1.setLink(pin1, comp2, pin2);
+}
+
+nts::IComponent &nts::Circuit::getComponentByName(std::string &name)
+{
+    auto it = _components.find(name);
+    if (it == _components.end())
+        throw NtsError("nts::Circuit::getComponentByName()", "Component not find");
+    return (*(it->second));
+}

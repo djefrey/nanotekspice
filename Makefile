@@ -11,7 +11,8 @@ SRC					=	src/NTS.cpp									\
 						src/component/Component.cpp					\
 						src/component/ComponentFactory.cpp			\
 						src/component/Circuit.cpp					\
-						src/component/OutputComponent.cpp
+						src/component/OutputComponent.cpp			\
+						src/Parser.cpp
 
 SRC					+=	src/component/InputComponent.cpp			\
 						src/component/inputs/TrueInput.cpp			\
