@@ -17,6 +17,8 @@
 #include "component/OutputComponent.hpp"
 
 #include "component/chipsets/And4081.hpp"
+#include "component/chipsets/Or4071.hpp"
+#include "component/chipsets/Not4069.hpp"
 #include "component/chipsets/FlipFlop4013.hpp"
 #include "component/chipsets/Counter4040.hpp"
 #include "component/chipsets/Johnson4017.hpp"
@@ -31,6 +33,8 @@ const std::map<std::string, std::function<std::unique_ptr<nts::IComponent>(void)
     std::make_pair("output", [](){ return std::make_unique<nts::OutputComponent>(); }),
 
     std::make_pair("4081", [](){ return std::make_unique<nts::And4081>(); }),
+    std::make_pair("4071", [](){ return std::make_unique<nts::Or4071>(); }),
+    std::make_pair("4069", [](){ return std::make_unique<nts::Not4069>(); }),
     std::make_pair("4013", [](){ return std::make_unique<nts::FlipFlop4013>(); }),
     std::make_pair("4040", [](){ return std::make_unique<nts::Counter4040>(); }),
     std::make_pair("4017", [](){ return std::make_unique<nts::Johnson4017>(); }),

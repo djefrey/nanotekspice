@@ -20,6 +20,8 @@ SRC					+=	src/component/InputComponent.cpp			\
 						src/component/inputs/Clock.cpp
 
 SRC					+=	src/component/chipsets/And4081.cpp			\
+						src/component/chipsets/Or4071.cpp			\
+						src/component/chipsets/Not4069.cpp			\
 						src/component/chipsets/FlipFlop4013.cpp		\
 						src/component/chipsets/Counter4040.cpp		\
 						src/component/chipsets/Johnson4017.cpp
