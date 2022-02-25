@@ -24,6 +24,8 @@
 #include "component/chipsets/Johnson4017.hpp"
 #include "component/chipsets/Adder4008.hpp"
 #include "component/chipsets/Nand4011.hpp"
+#include "component/chipsets/Nor4001.hpp"
+#include "component/chipsets/Xor4030.hpp"
 
 std::unique_ptr<nts::ComponentFactory> nts::ComponentFactory::instance = nullptr;
 
@@ -42,6 +44,8 @@ const std::map<std::string, std::function<std::unique_ptr<nts::IComponent>(void)
     std::make_pair("4017", [](){ return std::make_unique<nts::Johnson4017>(); }),
     std::make_pair("4008", [](){ return std::make_unique<nts::Adder4008>(); }),
     std::make_pair("4011", [](){ return std::make_unique<nts::Nand4011>(); }),
+    std::make_pair("4001", [](){ return std::make_unique<nts::Nor4001>(); }),
+    std::make_pair("4030", [](){ return std::make_unique<nts::Xor4030>(); }),
 };
 
 nts::ComponentFactory &nts::ComponentFactory::get()
