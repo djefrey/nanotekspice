@@ -24,7 +24,9 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Not4069.cpp			\
 						src/component/chipsets/FlipFlop4013.cpp		\
 						src/component/chipsets/Counter4040.cpp		\
-						src/component/chipsets/Johnson4017.cpp
+						src/component/chipsets/Johnson4017.cpp		\
+						src/component/chipsets/Adder4008.cpp		\
+						src/component/chipsets/Nand4011.cpp
 
 INC_DIR				=	./include
 
