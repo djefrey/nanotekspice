@@ -19,6 +19,7 @@ void nts::Johnson4017::simulate(std::size_t tick)
     Tristate andClocks = and_gate(clock0, not_gate(clock1));
 
     (void) tick;
+    clearUpdatedPins();
     if (reset == TRUE) {
         _count = 0;
         updatePins();

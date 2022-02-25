@@ -29,6 +29,7 @@ void nts::FlipFlop4013::updateFlipFlop(const FlipFlopPins &pins)
     Tristate reset = readStateAt(pins.reset);
     Tristate set = readStateAt(pins.set);
 
+    clearUpdatedPins();
     if (reset == TRUE && set == TRUE) {
         this->setStateAt(pins.Q, TRUE, true);
         this->setStateAt(pins.notQ, TRUE, true);

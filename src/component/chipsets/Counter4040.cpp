@@ -17,6 +17,7 @@ void nts::Counter4040::simulate(std::size_t tick)
     Tristate reset = readStateAt(10);
 
     (void) tick;
+    clearUpdatedPins();
     if (reset == TRUE) {
         _count = 0;
         updatePins();
