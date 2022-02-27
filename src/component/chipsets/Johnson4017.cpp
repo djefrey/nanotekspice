@@ -43,5 +43,5 @@ void nts::Johnson4017::updatePins()
     this->setStateAt(5,  _count == 7 ? TRUE : FALSE, true);
     this->setStateAt(8,  _count == 8 ? TRUE : FALSE, true);
     this->setStateAt(10, _count == 9 ? TRUE : FALSE, true);
-    this->setStateAt(11, _count >  5 ? TRUE : FALSE, true);
+    this->setStateAt(11, _count <  5 ? TRUE : FALSE, true);
 }
