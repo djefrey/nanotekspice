@@ -15,6 +15,7 @@
 #include "component/inputs/FalseInput.hpp"
 #include "component/inputs/Clock.hpp"
 #include "component/OutputComponent.hpp"
+#include "component/chipsets/Logger.hpp"
 
 #include "component/chipsets/And4081.hpp"
 #include "component/chipsets/Or4071.hpp"
@@ -35,6 +36,7 @@ const std::map<std::string, std::function<std::unique_ptr<nts::IComponent>(void)
     std::make_pair("false", [](){ return std::make_unique<nts::FalseInput>(); }),
     std::make_pair("clock", [](){ return std::make_unique<nts::Clock>(); }),
     std::make_pair("output", [](){ return std::make_unique<nts::OutputComponent>(); }),
+    std::make_pair("logger", [](){ return std::make_unique<nts::Logger>(); }),
 
     std::make_pair("4081", [](){ return std::make_unique<nts::And4081>(); }),
     std::make_pair("4071", [](){ return std::make_unique<nts::Or4071>(); }),
