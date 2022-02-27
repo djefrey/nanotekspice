@@ -10,12 +10,16 @@
 
 int main(int ac, char **av)
 {
+    if (ac != 2) {
+        std::cerr << "Invalid args" << std::endl;
+        return 84;
+    }
     try {
         nts::NTS nts{std::string(av[1])};
 
         return nts.run();
     } catch(const nts::NtsError &err) {
-        std::cout << err.what() << std::endl;
+        std::cerr << err.what() << std::endl;
         return 84;
     }
 }
