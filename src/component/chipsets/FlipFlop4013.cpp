@@ -29,7 +29,6 @@ void nts::FlipFlop4013::updateFlipFlop(const FlipFlopPins &pins)
     Tristate reset = readStateAt(pins.reset);
     Tristate set = readStateAt(pins.set);
 
-    clearUpdatedPins();
     if (reset == TRUE && set == TRUE) {
         this->setStateAt(pins.Q, TRUE, true);
         this->setStateAt(pins.notQ, TRUE, true);
@@ -41,13 +40,8 @@ void nts::FlipFlop4013::updateFlipFlop(const FlipFlopPins &pins)
         this->setStateAt(pins.notQ, FALSE, true);
     } else {
         if (clock == TRUE) {
-            if (data == FALSE) {
-                this->setStateAt(pins.Q, FALSE, true);
-                this->setStateAt(pins.notQ, TRUE, true);
-            } else if (data == TRUE) {
-                this->setStateAt(pins.Q, TRUE, true);
-                this->setStateAt(pins.notQ, FALSE, true);
-            }
+            this->setStateAt(pins.Q, data, true);
+            this->setStateAt(pins.notQ, not_gate(data), true);
         }
     }
 }
