@@ -14,6 +14,7 @@ nts::OutputComponent::OutputComponent() : Component("Output", 1)
 
 void nts::OutputComponent::simulate(std::size_t tick)
 {
+    (void)tick;
 }
 
 nts::Tristate nts::OutputComponent::getValue()
