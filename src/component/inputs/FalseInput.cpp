@@ -13,6 +13,6 @@ nts::FalseInput::FalseInput() : InputComponent("FalseInput")
 
 void nts::FalseInput::simulate(std::size_t tick)
 {
-    _state = TRUE;
+    _state = FALSE;
     InputComponent::simulate(tick);
 }

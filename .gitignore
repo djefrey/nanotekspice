@@ -3,3 +3,5 @@ nanotekspice
 vgcore*
 .vscode
 **/*.nts
+rom.bin
+log.bin
