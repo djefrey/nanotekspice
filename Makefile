@@ -30,7 +30,8 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Nor4001.cpp			\
 						src/component/chipsets/Xor4030.cpp			\
 						src/component/chipsets/Rom2716.cpp			\
-						src/component/chipsets/Logger.cpp
+						src/component/chipsets/Logger.cpp			\
+						src/component/chipsets/Decoder4514.cpp
 
 INC_DIR				=	./include
 
