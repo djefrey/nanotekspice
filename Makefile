@@ -70,6 +70,7 @@ debug: re
 clean:
 	rm -f $(MAIN_OBJ)
 	rm -f $(OBJ)
+	rm -f $(TESTS_OBJ)
 	rm -f $(GCNO_FILES)
 	rm -f $(GCDA_FILES)
 
