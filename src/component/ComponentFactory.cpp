@@ -29,6 +29,7 @@
 #include "component/chipsets/Xor4030.hpp"
 #include "component/chipsets/Rom2716.hpp"
 #include "component/chipsets/Decoder4514.hpp"
+#include "component/chipsets/Selector4512.hpp"
 
 std::unique_ptr<nts::ComponentFactory> nts::ComponentFactory::instance = nullptr;
 
@@ -52,6 +53,7 @@ const std::map<std::string, std::function<std::unique_ptr<nts::IComponent>(void)
     std::make_pair("4030", [](){ return std::make_unique<nts::Xor4030>(); }),
     std::make_pair("2716", [](){ return std::make_unique<nts::Rom2716>(); }),
     std::make_pair("4514", [](){ return std::make_unique<nts::Decoder4514>(); }),
+    std::make_pair("4512", [](){ return std::make_unique<nts::Selector4512>(); }),
 };
 
 nts::ComponentFactory &nts::ComponentFactory::get()
