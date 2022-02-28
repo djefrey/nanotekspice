@@ -19,9 +19,13 @@ void nts::Parser::Parse(const std::string &path)
     std::stringstream stream;
     std::string content;
 
+    if (path.find(".nts") == path.npos)
+        throw NtsError("Parse::Parse()", "Not good extension");
     if (!file.is_open())
-        std::cerr << "No such file or directory" << std::endl;
+        throw NtsError("Parse::Parse()", "No such file or directory");
     stream << file.rdbuf();
+    if (!stream.good())
+        throw NtsError("Parse::Parse()", "Empty file");
     content = stream.str();
     content = std::regex_replace(content, skipComment, "");
     std::sregex_token_iterator iter(content.begin(), content.end(), getInfo, 0);
