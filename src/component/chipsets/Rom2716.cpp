@@ -58,7 +58,6 @@ void nts::Rom2716::simulate(std::size_t tick)
         if (addr == 2048)
             return;
         byte = *(_data + addr);
-        std::cout << addr << ": " << byte << std::endl;
         for (std::size_t i = 0; i < 8; i++)
             setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE, true);
     } else {
