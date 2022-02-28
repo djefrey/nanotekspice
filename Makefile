@@ -40,6 +40,9 @@ TESTS_SRC			=	tests/AndTests.cpp							\
 						tests/XorTests.cpp							\
 						tests/FlipFlopTests.cpp
 
+GCNO_FILES			=	$(SRC:.cpp=.gcno) $(TESTS_SRC:.cpp=.gcno)
+GCDA_FILES			=	$(SRC:.cpp=.gcda) $(TESTS_SRC:.cpp=.gcda)
+
 INC_DIR				=	./include
 
 CXXFLAGS			+=	-Wall -Wextra -I$(INC_DIR)
@@ -67,10 +70,8 @@ debug: re
 clean:
 	rm -f $(MAIN_OBJ)
 	rm -f $(OBJ)
-	rm -f $(wildcard *.gcno)
-	rm -f $(wildcard *.gcda)
-	rm -f $(wildcard **/*.gcno)
-	rm -f $(wildcard **/*.gcda)
+	rm -f $(GCNO_FILES)
+	rm -f $(GCDA_FILES)
 
 fclean: clean
 	rm -f $(NAME)
