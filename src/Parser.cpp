@@ -11,10 +11,8 @@
 
 nts::Parser::Parser(nts::Circuit &circuit) : _circuit(circuit) {}
 
-void nts::Parser::Parse(const std::string &path)
+void nts::Parser::parseFile(const std::string &path)
 {
-    std::regex skipComment("[#].*");
-    std::regex getInfo("\\.([A-Za-z]+)|([A-Za-z0-9_-]+)");
     std::ifstream file(path);
     std::stringstream stream;
     std::string content;
@@ -27,14 +25,22 @@ void nts::Parser::Parse(const std::string &path)
     if (!stream.good())
         throw NtsError("Parse::Parse()", "Empty file");
     content = stream.str();
-    content = std::regex_replace(content, skipComment, "");
-    std::sregex_token_iterator iter(content.begin(), content.end(), getInfo, 0);
-    std::sregex_token_iterator end;
-    ParseChipset(iter, end);
-    ParseLinks(iter, end);
+    parseStr(content);
 }
 
-void nts::Parser::ParseChipset(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
+void nts::Parser::parseStr(const std::string &content)
+{
+    std::regex skipComment("[#].*");
+    std::regex getInfo("\\.([A-Za-z]+)|([A-Za-z0-9_-]+)");
+    std::string filtered = std::regex_replace(content, skipComment, "");
+    std::sregex_token_iterator iter(filtered.begin(), filtered.end(), getInfo, 0);
+    std::sregex_token_iterator end;
+
+    parseChipset(iter, end);
+    parseLinks(iter, end);
+}
+
+void nts::Parser::parseChipset(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
 {
     std::string model;
     std::string name;
@@ -56,7 +62,7 @@ void nts::Parser::ParseChipset(std::sregex_token_iterator &iter, std::sregex_tok
     }
 }
 
-void nts::Parser::ParseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
+void nts::Parser::parseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
 {
     std::string comp1;
     std::string comp2;

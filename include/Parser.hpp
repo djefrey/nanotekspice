@@ -19,9 +19,11 @@ namespace nts {
         public:
             Parser(nts::Circuit &circuit);
             ~Parser() = default;
-            void Parse(const std::string &f);
-            void ParseChipset(std::sregex_token_iterator &iter, std::sregex_token_iterator end);
-            void ParseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end);
+
+            void parseFile(const std::string &path);
+            void parseStr(const std::string &content);
+            void parseChipset(std::sregex_token_iterator &iter, std::sregex_token_iterator end);
+            void parseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end);
 
         protected:
         private:

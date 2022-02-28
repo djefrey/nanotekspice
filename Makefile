@@ -32,12 +32,18 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Rom2716.cpp			\
 						src/component/chipsets/Logger.cpp
 
+TESTS_SRC			=	tests/AndTests.cpp							\
+						tests/OrTests.cpp							\
+						tests/XorTests.cpp							\
+						tests/FlipFlopTests.cpp
+
 INC_DIR				=	./include
 
 CXXFLAGS			+=	-Wall -Wextra -I$(INC_DIR)
 
 MAIN_OBJ			=	$(MAIN_SRC:.cpp=.o)
 OBJ					=	$(SRC:.cpp=.o)
+TESTS_OBJ			=	$(TESTS_SRC:.cpp=.o)
 
 NAME				=	nanotekspice
 NAME_TESTS			=	unit_tests
@@ -47,12 +53,21 @@ all: $(NAME)
 $(NAME): $(MAIN_OBJ) $(OBJ)
 	g++ $(CXXFLAGS) -o $(NAME) $(MAIN_OBJ) $(OBJ)
 
+tests_run: CXXFLAGS += --coverage
+tests_run: fclean $(OBJ) $(TESTS_OBJ)
+	g++ $(CXXFLAGS) -o $(NAME_TESTS) $(OBJ) $(TESTS_OBJ) -lcriterion
+	./$(NAME_TESTS)
+
 debug: CXXFLAGS += -g
 debug: re
 
 clean:
 	rm -f $(MAIN_OBJ)
 	rm -f $(OBJ)
+	rm -f $(wildcard *.gcno)
+	rm -f $(wildcard *.gcda)
+	rm -f $(wildcard **/*.gcno)
+	rm -f $(wildcard **/*.gcda)
 
 fclean: clean
 	rm -f $(NAME)

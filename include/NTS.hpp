@@ -31,7 +31,7 @@ namespace nts {
         const static std::map<std::string, NTSFctPtr> commandsList;
 
         public:
-            NTS();
+            NTS() = delete;
             NTS(const std::string &config);
             ~NTS() = default;
 
