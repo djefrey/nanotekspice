@@ -29,8 +29,11 @@ namespace nts {
             virtual std::string getName() const = 0;
 
             virtual void setName(std::string name) = 0;
-            virtual Connection getConnectionAt(PinId) const = 0;
-            virtual void setConnectionAt(PinId pin, IComponent &component, PinId otherPin) = 0;
+            virtual std::vector<Connection> getConnectionsAt(PinId) const = 0;
+            virtual void addConnectionAt(PinId pin, IComponent &component, PinId otherPin) = 0;
+
+            virtual Tristate readStateAt(PinId pin) = 0;
+            virtual void setStateAt(PinId pin, Tristate state, bool update) = 0;
             virtual std::vector<std::size_t> getUpdatedPins() const = 0;
     };
 

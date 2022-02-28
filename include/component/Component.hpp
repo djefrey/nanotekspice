@@ -26,8 +26,9 @@ namespace nts {
             std::size_t getNbOfPins() const { return _nbPins; };
 
             void setName(std::string name);
-            Connection getConnectionAt(PinId pin) const;
-            void setConnectionAt(PinId pin, IComponent &component, PinId otherPin);
+            std::vector<Connection> getConnectionsAt(PinId pin) const;
+            void addConnectionAt(PinId pin, IComponent &component, PinId otherPin);
+            Tristate readStateAt(PinId pin);
             void setStateAt(PinId, Tristate state, bool update);
             std::vector<std::size_t> getUpdatedPins() const;
 
@@ -35,14 +36,13 @@ namespace nts {
             Component(std::string model, std::size_t nbPins);
 
             void clearUpdatedPins();
-            Tristate readStateAt(PinId pin);
 
         private:
             std::string _model;
             std::string _name;
             std::size_t _nbPins;
             std::vector<Tristate> _states;
-            std::vector<Connection> _connections;
+            std::vector<std::vector<Connection>> _connections;
             std::vector<PinId> _updatedPins;
     };
 }

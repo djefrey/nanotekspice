@@ -85,13 +85,12 @@ void nts::Circuit::printInOut() const
 
 void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp)
 {
-    Connection conn;
-
     for (std::size_t pin : comp.getUpdatedPins()) {
-        conn = comp.getConnectionAt(pin);
-        if (conn.component
-        &&  std::find(update.begin(), update.end(), conn.component) == update.end()) {
-            update.push_back(conn.component);
+        for (Connection conn : comp.getConnectionsAt(pin)) {
+            if (conn.component
+            &&  std::find(update.begin(), update.end(), conn.component) == update.end()) {
+                update.push_back(conn.component);
+            }
         }
     }
 }
