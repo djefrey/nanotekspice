@@ -18,7 +18,7 @@ nts::Circuit::Circuit(std::string model, std::size_t nbPins) : Component(model, 
 void nts::Circuit::update()
 {
     for (OutputComponent *out : this->_outputs)
-        out->simulate(this->_lastUpdate);
+        out->simulate(this->getLastUpdate());
 }
 
 void nts::Circuit::dump() const
@@ -72,20 +72,6 @@ void nts::Circuit::printInOut() const
     for (OutputComponent *output : this->_outputs)
         std::cout << "  " << output->getName() << ": " << output->getValue() << "\n";
     std::cout.flush();
-}
-
-void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp)
-{
-    for (std::size_t pin : comp.getUpdatedPins()) {
-        for (Connection conn : comp.getConnectionsAt(pin)) {
-            std::cout <<  conn.component->getStateAt(conn.pin) << " - " <<  comp.getStateAt(pin) << std::endl;
-            if (!(conn.component->getPinTypeAt(conn.pin) & INPUT)
-             || conn.component->getStateAt(conn.pin) == comp.getStateAt(pin))
-                continue;
-            if (std::find(update.begin(), update.end(), conn.component) == update.end())
-                update.push_back(conn.component);
-        }
-    }
 }
 
 void nts::Circuit::insertInput(InputComponent *input)

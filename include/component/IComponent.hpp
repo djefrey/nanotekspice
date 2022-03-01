@@ -37,13 +37,14 @@ namespace nts {
             virtual std::string getName() const = 0;
 
             virtual void setName(std::string name) = 0;
+
             virtual std::vector<Connection> getConnectionsAt(PinId) const = 0;
             virtual void addConnectionAt(PinId pin, IComponent &component, PinId otherPin) = 0;
 
             virtual Tristate getStateAt(PinId pin) = 0;
             virtual void setStateAt(PinId pin, Tristate state) = 0;
+
             virtual PinType getPinTypeAt(PinId pin) const = 0;
-            virtual std::vector<std::size_t> getUpdatedPins() const = 0;
     };
 
     struct Connection_s {

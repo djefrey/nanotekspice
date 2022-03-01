@@ -33,8 +33,6 @@ namespace nts {
             std::vector<InputComponent*> _inputs;
             std::vector<OutputComponent*> _outputs;
 
-            void addUpdatedPinsToUpdate(std::vector<IComponent*> &update, IComponent &comp);
-
             void insertInput(InputComponent*);
             void insertOutput(OutputComponent*);
 

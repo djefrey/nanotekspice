@@ -35,16 +35,14 @@ namespace nts {
             Tristate getStateAt(PinId pin);
             void setStateAt(PinId, Tristate state);
             PinType getPinTypeAt(PinId pin) const;
-            std::vector<std::size_t> getUpdatedPins() const;
+
+            std::size_t getLastUpdate() { return _lastUpdate; };
 
         protected:
-            std::size_t _lastUpdate = 0;
-
             Component(std::string model, std::size_t nbPins);
 
             void setPinTypeAt(PinId id, PinType type);
-            Tristate readStateAt(PinId pin);;
-            void clearUpdatedPins();
+            Tristate readStateAt(PinId pin);
 
         private:
             std::string _model;
@@ -53,6 +51,6 @@ namespace nts {
             std::vector<PinType> _types;
             std::vector<Tristate> _states;
             std::vector<std::vector<Connection>> _connections;
-            std::vector<PinId> _updatedPins;
+            std::size_t _lastUpdate = 0;
     };
 }

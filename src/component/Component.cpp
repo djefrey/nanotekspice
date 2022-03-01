@@ -136,13 +136,3 @@ void nts::Component::setPinTypeAt(PinId pin, PinType type)
         throw NtsError("Component::getPinTypeAt()", "Invalid pin");
     this->_types[pin] = type;
 }
-
-std::vector<std::size_t> nts::Component::getUpdatedPins() const
-{
-    return this->_updatedPins;
-}
-
-void nts::Component::clearUpdatedPins()
-{
-    this->_updatedPins.clear();
-}
