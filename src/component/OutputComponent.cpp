@@ -10,11 +10,12 @@
 
 nts::OutputComponent::OutputComponent() : Component("Output", 1)
 {
+    setPinTypeAt(0, INPUT);
 }
 
 void nts::OutputComponent::simulate(std::size_t tick)
 {
-    (void)tick;
+    (void) tick;
 }
 
 nts::Tristate nts::OutputComponent::getValue()

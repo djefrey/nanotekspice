@@ -9,6 +9,13 @@
 
 nts::Counter4040::Counter4040() : Component("4040", 16)
 {
+    const std::size_t inputs[] = {9, 10};
+    const std::size_t outputs[] = {0, 1, 2, 3, 4, 5, 6, 8, 11, 12, 13, 14};
+
+    for (std::size_t i = 0; i < 2; i++)
+        setPinTypeAt(inputs[i], INPUT);
+    for (std::size_t i = 0; i < 12; i++)
+        setPinTypeAt(outputs[i], OUTPUT);
 }
 
 void nts::Counter4040::simulate(std::size_t tick)

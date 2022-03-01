@@ -9,6 +9,13 @@
 
 nts::Decoder4514::Decoder4514() : Component("4514", 24)
 {
+    const std::size_t inputs[] = {1, 2, 20, 21};
+    const std::size_t outputs[] = {10, 8, 9, 7, 6, 5, 4, 3, 17, 16, 19, 18, 13, 12, 15};
+
+    for (std::size_t i = 0; i < 4; i++)
+        setPinTypeAt(inputs[i], INPUT);
+    for (std::size_t i = 0; i < 15; i++)
+        setPinTypeAt(outputs[i], OUTPUT);
 }
 
 void nts::Decoder4514::simulate(std::size_t tick)

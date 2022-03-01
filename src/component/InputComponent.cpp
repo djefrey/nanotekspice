@@ -9,6 +9,7 @@
 
 nts::InputComponent::InputComponent(std::string model) : Component(model, 1)
 {
+    setPinTypeAt(0, OUTPUT);
 }
 
 void nts::InputComponent::simulate(std::size_t tick)

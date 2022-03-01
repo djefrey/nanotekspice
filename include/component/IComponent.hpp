@@ -13,7 +13,15 @@
 #include "Tristate.hpp"
 
 namespace nts {
+    enum PinType_e {
+        UNUSED = 0,
+        INPUT = 1,
+        OUTPUT = 2,
+        INOUT = 3,
+    };
+
     typedef struct Connection_s Connection;
+    typedef enum PinType_e PinType;
     typedef std::size_t PinId;
 
     class IComponent {
@@ -34,6 +42,7 @@ namespace nts {
 
             virtual Tristate readStateAt(PinId pin) = 0;
             virtual void setStateAt(PinId pin, Tristate state, bool update) = 0;
+            virtual PinType getPinTypeAt(PinId pin) const = 0;
             virtual std::vector<std::size_t> getUpdatedPins() const = 0;
     };
 

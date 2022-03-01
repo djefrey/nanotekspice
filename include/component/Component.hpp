@@ -30,17 +30,20 @@ namespace nts {
             void addConnectionAt(PinId pin, IComponent &component, PinId otherPin);
             Tristate readStateAt(PinId pin);
             void setStateAt(PinId, Tristate state, bool update);
+            PinType getPinTypeAt(PinId pin) const;
             std::vector<std::size_t> getUpdatedPins() const;
 
         protected:
             Component(std::string model, std::size_t nbPins);
 
+            void setPinTypeAt(PinId id, PinType type);
             void clearUpdatedPins();
 
         private:
             std::string _model;
             std::string _name;
             std::size_t _nbPins;
+            std::vector<PinType> _types;
             std::vector<Tristate> _states;
             std::vector<std::vector<Connection>> _connections;
             std::vector<PinId> _updatedPins;

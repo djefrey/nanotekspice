@@ -16,6 +16,8 @@
 
 nts::Rom2716::Rom2716() : Component("rom", 24)
 {
+    const std::size_t inputs[] = {7, 6, 5, 4, 3, 2, 1, 0, 22, 21, 18, 17, 19};
+    const std::size_t outputs[] = {8, 9, 10, 12, 13, 14, 15, 16};
     struct stat s;
 
     _fd = open("./rom.bin", O_RDONLY);
@@ -27,6 +29,11 @@ nts::Rom2716::Rom2716() : Component("rom", 24)
     _data = (uint8_t*) mmap(NULL, 16 * 1024, PROT_READ, MAP_PRIVATE, _fd, 0);
     if (!_data)
         throw NtsError("Rom2716::Rom2716()", "Could not map rom.bin");
+
+    for (std::size_t i = 0; i < 13; i++)
+        setPinTypeAt(inputs[i], INPUT);
+    for (std::size_t i = 0; i < 8; i++)
+        setPinTypeAt(outputs[i], OUTPUT);
 }
 
 nts::Rom2716::~Rom2716()
@@ -52,7 +59,7 @@ void nts::Rom2716::simulate(std::size_t tick)
             state = readStateAt(addressPins[i]);
             if (state == UNDEFINED)
                 return;
-            else if (state == TRUE)
+            if (state == TRUE)
                 addr |= (1 << i);
         }
         if (addr == 2048)

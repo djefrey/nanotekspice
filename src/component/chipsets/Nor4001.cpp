@@ -8,7 +8,15 @@
 #include "component/chipsets/Nor4001.hpp"
 
 nts::Nor4001::Nor4001() : Component("4001", 14)
-{}
+{
+    const std::size_t inputs[] = {0, 1, 4, 5, 7, 8, 11, 12};
+    const std::size_t outputs[] = {2, 3, 9, 10};
+
+    for (std::size_t i = 0; i < 8; i++)
+        setPinTypeAt(inputs[i], INPUT);
+    for (std::size_t i = 0; i < 4; i++)
+        setPinTypeAt(outputs[i], OUTPUT);
+}
 
 void nts::Nor4001::simulate(std::size_t tick)
 {

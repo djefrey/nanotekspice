@@ -7,8 +7,15 @@
 
 #include "component/chipsets/Johnson4017.hpp"
 
-nts::Johnson4017::Johnson4017() : Component("Johnson4017", 15)
+nts::Johnson4017::Johnson4017() : Component("Johnson4017", 14)
 {
+    const std::size_t inputs[] = {13, 12, 14};
+    const std::size_t outputs[] = {0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11};
+
+    for (std::size_t i = 0; i < 3; i++)
+        setPinTypeAt(inputs[i], INPUT);
+    for (std::size_t i = 0; i < 11; i++)
+        setPinTypeAt(outputs[i], OUTPUT);
 }
 
 void nts::Johnson4017::simulate(std::size_t tick)

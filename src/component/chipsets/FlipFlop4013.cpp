@@ -9,6 +9,13 @@
 
 nts::FlipFlop4013::FlipFlop4013() : Component("4013", 14)
 {
+    const std::size_t inputs[] = {0, 1, 12, 11};
+    const std::size_t outputs[] = {2, 3, 4, 5, 10, 9, 8, 7};
+
+    for (std::size_t i = 0; i < 4; i++)
+        setPinTypeAt(inputs[i], INPUT);
+    for (std::size_t i = 0; i < 8; i++)
+        setPinTypeAt(outputs[i], OUTPUT);
 }
 
 void nts::FlipFlop4013::simulate(std::size_t tick)

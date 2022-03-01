@@ -13,6 +13,8 @@ nts::Logger::Logger() : Component("logger", 10)
     file.open("./log.bin");
     if (!file.is_open())
         throw NtsError("Logger::Logger()", "Could not open ./log.bin");
+    for (std::size_t i = 0; i <= 9; i++)
+        setPinTypeAt(i, INPUT);
 }
 
 nts::Logger::~Logger()

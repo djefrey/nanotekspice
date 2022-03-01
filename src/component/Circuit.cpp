@@ -24,6 +24,7 @@ void nts::Circuit::simulate(std::size_t tick)
     clearUpdatedPins();
     while (!toUpdate.empty()) {
         for (IComponent *comp : toUpdate) {
+            std::cout << "Simulate " << comp->getName() << std::endl;
             comp->simulate(1);
             addUpdatedPinsToUpdate(nextUpdate, *comp);
         }
@@ -87,6 +88,8 @@ void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, ICom
 {
     for (std::size_t pin : comp.getUpdatedPins()) {
         for (Connection conn : comp.getConnectionsAt(pin)) {
+            if (!(conn.component->getPinTypeAt(conn.pin) & INPUT))
+                continue;
             if (conn.component
             &&  std::find(update.begin(), update.end(), conn.component) == update.end()) {
                 update.push_back(conn.component);

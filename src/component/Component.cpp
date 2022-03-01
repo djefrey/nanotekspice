@@ -14,9 +14,12 @@ nts::Component::Component(std::string model, std::size_t nbPins)
     : _model(model), _name(model), _nbPins(nbPins)
 {
     _states.resize(nbPins);
+    _types.resize(nbPins);
     _connections.resize(nbPins);
-    for (std::size_t i = 0; i < nbPins; i++)
+    for (std::size_t i = 0; i < nbPins; i++) {
         _states[i] = UNDEFINED;
+        _types[i] = UNUSED;
+    }
 }
 
 nts::Tristate nts::Component::compute(std::size_t pin)
@@ -85,12 +88,29 @@ void nts::Component::setStateAt(PinId pin, Tristate state, bool update)
 {
     if (pin >= this->_nbPins)
         throw NtsError("Component::setStateAt()", "Invalid pin");
-    if (update && this->_states[pin] != state) {
-        for (Connection conn : this->_connections[pin])
+    if (update) {
+        for (Connection conn : this->_connections[pin]) {
+            if (!(conn.component->getPinTypeAt(conn.pin) & INPUT))
+                continue;
             conn.component->setStateAt(conn.pin, state, false);
+        }
         this->_updatedPins.push_back(pin);
     }
     this->_states[pin] = state;
+}
+
+nts::PinType nts::Component::getPinTypeAt(PinId pin) const
+{
+    if (pin >= this->_nbPins)
+        throw NtsError("Component::getPinTypeAt()", "Invalid pin");
+    return this->_types[pin];
+}
+
+void nts::Component::setPinTypeAt(PinId pin, PinType type)
+{
+    if (pin >= this->_nbPins)
+        throw NtsError("Component::getPinTypeAt()", "Invalid pin");
+    this->_types[pin] = type;
 }
 
 std::vector<std::size_t> nts::Component::getUpdatedPins() const
