@@ -25,6 +25,8 @@ void nts::Parser::parseFile(const std::string &path)
     if (!stream.good())
         throw NtsError("Parse::Parse()", "Empty file");
     content = stream.str();
+    if (content.front() == '\n')
+        throw NtsError("Parse::Parse()", "Empty file");
     parseStr(content);
 }
 
@@ -44,11 +46,12 @@ void nts::Parser::parseChipset(std::sregex_token_iterator &iter, std::sregex_tok
 {
     std::string model;
     std::string name;
+    int i = 0;
 
     if (*iter != ".chipsets")
         throw NtsError("Parser::Parse()", ".chipsets not found !");
     iter++;
-    for (int i = 0; iter != end; iter++) {
+    for (; iter != end; iter++) {
         if (*iter == ".links")
             return;
         if (i == 0) {
@@ -60,6 +63,8 @@ void nts::Parser::parseChipset(std::sregex_token_iterator &iter, std::sregex_tok
             i = 0;
         }
     }
+    if (i > 0)
+        throw NtsError("Parse::parseChipset()", "Invalid file");
 }
 
 void nts::Parser::parseLinks(std::sregex_token_iterator &iter, std::sregex_token_iterator end)
@@ -69,11 +74,12 @@ void nts::Parser::parseLinks(std::sregex_token_iterator &iter, std::sregex_token
     nts::PinId pin1 = 0;
     nts::PinId pin2 = 0;
     std::regex checkPin("[0-9]+");
+    int i = 0;
 
     if (*iter != ".links")
         throw NtsError("Parser::Parse()", ".links not found !");
     iter++;
-    for (int i = 0; iter != end; iter++) {
+    for (; iter != end; iter++) {
         if (i == 0) {
             comp1 = iter->str();
             i++;
@@ -93,4 +99,6 @@ void nts::Parser::parseLinks(std::sregex_token_iterator &iter, std::sregex_token
             i = 0;
         }
     }
+    if (i > 0)
+        throw NtsError("Parse::parseChipset()", "Invalid file");
 }
