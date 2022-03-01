@@ -15,22 +15,10 @@ nts::Circuit::Circuit(std::string model, std::size_t nbPins) : Component(model, 
 {
 }
 
-void nts::Circuit::simulate(std::size_t tick)
+void nts::Circuit::update()
 {
-    std::vector<IComponent*> toUpdate = *reinterpret_cast<std::vector<IComponent*>*>(&this->_inputs);
-    std::vector<IComponent*> nextUpdate;
-
-    (void) tick;
-    clearUpdatedPins();
-    while (!toUpdate.empty()) {
-        for (IComponent *comp : toUpdate) {
-            std::cout << "Simulate " << comp->getName() << std::endl;
-            comp->simulate(1);
-            addUpdatedPinsToUpdate(nextUpdate, *comp);
-        }
-        toUpdate = nextUpdate;
-        nextUpdate.clear();
-    }
+    for (OutputComponent *out : this->_outputs)
+        out->simulate(this->_lastUpdate);
 }
 
 void nts::Circuit::dump() const
@@ -65,7 +53,7 @@ nts::IComponent &nts::Circuit::createComponent(const std::string &model, std::st
 void nts::Circuit::setInputState(const std::string &name, Tristate state)
 {
     for (InputComponent *input : this->_inputs) {
-        if (input->getName() == name) {
+        if (!input->isStatic() && input->getName() == name) {
             input->setValue(state);
             return;
         }
@@ -76,8 +64,10 @@ void nts::Circuit::setInputState(const std::string &name, Tristate state)
 void nts::Circuit::printInOut() const
 {
     std::cout << "input(s):\n";
-    for (InputComponent *input : this->_inputs)
-        std::cout << "  " << input->getName() <<": " << input->getValue() << "\n";
+    for (InputComponent *input : this->_inputs) {
+        if (!input->isStatic())
+            std::cout << "  " << input->getName() <<": " << input->getValue() << "\n";
+    }
     std::cout << "output(s):\n";
     for (OutputComponent *output : this->_outputs)
         std::cout << "  " << output->getName() << ": " << output->getValue() << "\n";
@@ -88,12 +78,12 @@ void nts::Circuit::addUpdatedPinsToUpdate(std::vector<IComponent*> &update, ICom
 {
     for (std::size_t pin : comp.getUpdatedPins()) {
         for (Connection conn : comp.getConnectionsAt(pin)) {
-            if (!(conn.component->getPinTypeAt(conn.pin) & INPUT))
+            std::cout <<  conn.component->getStateAt(conn.pin) << " - " <<  comp.getStateAt(pin) << std::endl;
+            if (!(conn.component->getPinTypeAt(conn.pin) & INPUT)
+             || conn.component->getStateAt(conn.pin) == comp.getStateAt(pin))
                 continue;
-            if (conn.component
-            &&  std::find(update.begin(), update.end(), conn.component) == update.end()) {
+            if (std::find(update.begin(), update.end(), conn.component) == update.end())
                 update.push_back(conn.component);
-            }
         }
     }
 }
@@ -126,12 +116,14 @@ void nts::Circuit::setLink(std::string &name1, std::string &name2, nts::PinId pi
 {
     IComponent &comp1 = getComponentByName(name1);
     IComponent &comp2 = getComponentByName(name2);
+
     comp1.setLink(pin1, comp2, pin2);
 }
 
-nts::IComponent &nts::Circuit::getComponentByName(std::string &name)
+nts::IComponent &nts::Circuit::getComponentByName(std::string name) const
 {
     auto it = _components.find(name);
+
     if (it == _components.end())
         throw NtsError("nts::Circuit::getComponentByName()", "Component not find");
     return (*(it->second));

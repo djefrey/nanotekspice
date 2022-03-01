@@ -18,7 +18,7 @@ nts::Decoder4514::Decoder4514() : Component("4514", 24)
         setPinTypeAt(outputs[i], OUTPUT);
 }
 
-void nts::Decoder4514::simulate(std::size_t tick)
+void nts::Decoder4514::update()
 {
     const std::size_t inputs[] = {1, 2, 20, 21};
     const std::size_t outputs[] = {10, 8, 9, 7, 6, 5, 4, 3, 17, 16, 19, 18, 13, 12, 15};
@@ -27,11 +27,9 @@ void nts::Decoder4514::simulate(std::size_t tick)
     Tristate state;
     std::size_t idx = 0;
 
-    (void) tick;
-    clearUpdatedPins();
     if (inhibit == TRUE) {
         for (std::size_t i = 0; i < 15; i++)
-            setStateAt(outputs[i], FALSE, true);
+            setStateAt(outputs[i], FALSE);
     }
     if (inhibit == FALSE && strobe == TRUE) {
         for (std::size_t i = 0; i < 4; i++) {
@@ -42,6 +40,6 @@ void nts::Decoder4514::simulate(std::size_t tick)
                 idx |= (1 << i);
         }
         for (std::size_t i = 0; i < 15; i++)
-            setStateAt(outputs[i], i == idx ? TRUE : FALSE, true);
+            setStateAt(outputs[i], i == idx ? TRUE : FALSE);
     }
 }

@@ -15,7 +15,7 @@ namespace nts {
             Nor4001();
             ~Nor4001() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

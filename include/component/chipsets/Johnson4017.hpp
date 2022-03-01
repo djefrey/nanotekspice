@@ -15,7 +15,7 @@ namespace nts {
             Johnson4017();
             ~Johnson4017() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

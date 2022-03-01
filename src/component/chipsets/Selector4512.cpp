@@ -18,7 +18,7 @@ nts::Selector4512::Selector4512() : Component("4514", 16)
         setPinTypeAt(outputs[i], OUTPUT);
 }
 
-void nts::Selector4512::simulate(std::size_t tick)
+void nts::Selector4512::update()
 {
     const std::size_t inputs[] = {10, 11, 12};
     const std::size_t channels[] = {0, 1, 2, 3, 4, 5, 6, 8};
@@ -27,10 +27,8 @@ void nts::Selector4512::simulate(std::size_t tick)
     Tristate state;
     std::size_t idx = 0;
 
-    (void) tick;
-    clearUpdatedPins();
     if (inhibit == TRUE)
-        setStateAt(13, FALSE, true);
+        setStateAt(13, FALSE);
     if (inhibit == FALSE && enable == TRUE) {
         for (std::size_t i = 0; i < 3; i++) {
             state = readStateAt(inputs[i]);
@@ -40,6 +38,6 @@ void nts::Selector4512::simulate(std::size_t tick)
                 idx |= (1 << i);
         }
         state = readStateAt(channels[idx]);
-        setStateAt(13, state, true);
+        setStateAt(13, state);
     }
 }

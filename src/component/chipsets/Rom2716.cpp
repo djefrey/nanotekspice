@@ -42,7 +42,7 @@ nts::Rom2716::~Rom2716()
     close(_fd);
 }
 
-void nts::Rom2716::simulate(std::size_t tick)
+void nts::Rom2716::update()
 {
     const PinId addressPins[] = {7, 6, 5, 4, 3, 2, 1, 0, 22, 21, 18};
     const PinId outputPins[] = {8, 9, 10, 12, 13, 14, 15, 16};
@@ -52,8 +52,6 @@ void nts::Rom2716::simulate(std::size_t tick)
     uint64_t addr = 0;
     uint8_t byte;
 
-    (void) tick;
-    clearUpdatedPins();
     if (chipEnable == TRUE && outEnable == TRUE) {
         for (std::size_t i = 0; i < 10; i++) {
             state = readStateAt(addressPins[i]);
@@ -66,9 +64,9 @@ void nts::Rom2716::simulate(std::size_t tick)
             return;
         byte = *(_data + addr);
         for (std::size_t i = 0; i < 8; i++)
-            setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE, true);
+            setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE);
     } else {
         for (std::size_t i = 0; i < 8; i++)
-            setStateAt(outputPins[i], UNDEFINED, true);
+            setStateAt(outputPins[i], UNDEFINED);
     }
 }

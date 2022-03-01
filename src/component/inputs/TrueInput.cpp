@@ -11,8 +11,8 @@ nts::TrueInput::TrueInput() : InputComponent("TrueInput")
 {
 }
 
-void nts::TrueInput::simulate(std::size_t tick)
+void nts::TrueInput::update()
 {
     _state = TRUE;
-    InputComponent::simulate(tick);
+    InputComponent::update();
 }

@@ -12,10 +12,12 @@
 namespace nts {
     class InputComponent : public Component {
         public:
-            virtual void simulate(std::size_t tick);
+            virtual void update();
 
             Tristate getValue();
             void setValue(Tristate state);
+
+            virtual bool isStatic() { return false; };
 
         protected:
             Tristate _state = UNDEFINED;

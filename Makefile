@@ -35,9 +35,7 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Selector4512.cpp		\
 						src/component/chipsets/Ram4801.cpp
 
-TESTS_SRC			=	tests/AndTests.cpp							\
-						tests/OrTests.cpp							\
-						tests/XorTests.cpp							\
+TESTS_SRC			=	tests/GateTests.cpp							\
 						tests/FlipFlopTests.cpp
 
 GCNO_FILES			=	$(SRC:.cpp=.gcno) $(TESTS_SRC:.cpp=.gcno)

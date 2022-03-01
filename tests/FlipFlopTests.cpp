@@ -9,6 +9,7 @@
 #include "component/Circuit.hpp"
 #include "component/chipsets/FlipFlop4013.hpp"
 
+/*
 static void testFlipFlop(nts::IComponent &comp,
                     nts::PinId clock,
                     nts::PinId data,
@@ -92,3 +93,4 @@ Test(FlipFlop, testFF)
     testFlipFlop(comp, 2, 4, 5, 3, 0, 1);
     testFlipFlop(comp, 10, 8, 7, 9, 12, 11);
 }
+*/

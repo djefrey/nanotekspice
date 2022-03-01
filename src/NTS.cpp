@@ -71,8 +71,8 @@ bool nts::NTS::setInputFromCmd(const std::string &cmd)
 
 void nts::NTS::simulateCmd()
 {
-    this->_circuit.simulate(this->_tick);
     this->_tick++;
+    this->_circuit.simulate(this->_tick);
 }
 
 void nts::NTS::displayCmd()

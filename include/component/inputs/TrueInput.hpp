@@ -15,6 +15,8 @@ namespace nts {
             TrueInput();
             ~TrueInput() = default;
 
-            void simulate(std::size_t tick);
+            void update();
+
+            bool isStatic() { return true; };
     };
 }

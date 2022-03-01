@@ -18,7 +18,7 @@ nts::Adder4008::Adder4008() : Component("4008", 16)
         setPinTypeAt(outputs[i], OUTPUT);
 }
 
-void nts::Adder4008::simulate(std::size_t tick)
+void nts::Adder4008::update()
 {
     const std::size_t inputs[] = {6, 5, 4, 3, 2, 1, 0, 14};
     const std::size_t outputs[] = {9, 10, 11, 12};
@@ -27,16 +27,14 @@ void nts::Adder4008::simulate(std::size_t tick)
     Tristate c = readStateAt(8);
     std::tuple<Tristate, Tristate> result;
 
-    (void) tick;
-    clearUpdatedPins();
     for (std::size_t i = 0; i < 4; i++) {
         stateA = readStateAt(inputs[i * 2]);
         stateB = readStateAt(inputs[i * 2 + 1]);
         result = add(stateA, stateB, c);
-        this->setStateAt(outputs[i], std::get<0>(result), true);
+        this->setStateAt(outputs[i], std::get<0>(result));
         c = std::get<1>(result);
     }
-    this->setStateAt(13, c, true);
+    this->setStateAt(13, c);
 }
 
 std::tuple<nts::Tristate, nts::Tristate> nts::Adder4008::add(nts::Tristate a, nts::Tristate b, nts::Tristate c)

@@ -15,7 +15,7 @@ namespace nts {
             And4081();
             ~And4081() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

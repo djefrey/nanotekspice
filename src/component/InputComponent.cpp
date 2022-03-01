@@ -12,11 +12,9 @@ nts::InputComponent::InputComponent(std::string model) : Component(model, 1)
     setPinTypeAt(0, OUTPUT);
 }
 
-void nts::InputComponent::simulate(std::size_t tick)
+void nts::InputComponent::update()
 {
-    (void) tick;
-    clearUpdatedPins();
-    this->setStateAt(0, _state, true);
+    this->setStateAt(0, _state);
 }
 
 nts::Tristate nts::InputComponent::getValue()

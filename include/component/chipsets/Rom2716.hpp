@@ -17,7 +17,7 @@ namespace nts {
             Rom2716();
             ~Rom2716();
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

@@ -15,7 +15,7 @@ namespace nts {
             Or4071();
             ~Or4071() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

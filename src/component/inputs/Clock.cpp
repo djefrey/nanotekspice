@@ -11,8 +11,8 @@ nts::Clock::Clock() : InputComponent("Clock")
 {
 }
 
-void nts::Clock::simulate(std::size_t tick)
+void nts::Clock::update()
 {
-    InputComponent::simulate(tick);
+    InputComponent::update();
     this->_state = not_gate(this->_state);
 }

@@ -15,7 +15,7 @@ namespace nts {
             Decoder4514();
             ~Decoder4514() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

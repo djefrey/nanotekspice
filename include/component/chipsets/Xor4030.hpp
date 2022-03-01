@@ -15,7 +15,7 @@ namespace nts {
             Xor4030();
             ~Xor4030() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

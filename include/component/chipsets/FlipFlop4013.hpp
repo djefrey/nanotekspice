@@ -24,7 +24,7 @@ namespace nts {
             FlipFlop4013();
             ~FlipFlop4013() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

@@ -15,7 +15,7 @@ namespace nts {
             Not4069();
             ~Not4069() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

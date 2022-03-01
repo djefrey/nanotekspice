@@ -15,7 +15,7 @@ namespace nts {
             Counter4040();
             ~Counter4040() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

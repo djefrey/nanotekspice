@@ -14,7 +14,7 @@ namespace nts {
             Nand4011();
             ~Nand4011() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

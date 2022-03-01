@@ -18,13 +18,11 @@ nts::FlipFlop4013::FlipFlop4013() : Component("4013", 14)
         setPinTypeAt(outputs[i], OUTPUT);
 }
 
-void nts::FlipFlop4013::simulate(std::size_t tick)
+void nts::FlipFlop4013::update()
 {
     const FlipFlopPins ff1 = { 0,  1,  2, 3, 4, 5};
     const FlipFlopPins ff2 = {12, 11, 10, 9, 8, 7};
 
-    (void) tick;
-    clearUpdatedPins();
     updateFlipFlop(ff1);
     updateFlipFlop(ff2);
 }
@@ -37,18 +35,18 @@ void nts::FlipFlop4013::updateFlipFlop(const FlipFlopPins &pins)
     Tristate set = readStateAt(pins.set);
 
     if (reset == TRUE && set == TRUE) {
-        this->setStateAt(pins.Q, TRUE, true);
-        this->setStateAt(pins.notQ, TRUE, true);
+        this->setStateAt(pins.Q, TRUE);
+        this->setStateAt(pins.notQ, TRUE);
     } else if (reset == TRUE) {
-        this->setStateAt(pins.Q, FALSE, true);
-        this->setStateAt(pins.notQ, TRUE, true);
+        this->setStateAt(pins.Q, FALSE);
+        this->setStateAt(pins.notQ, TRUE);
     } else if (set == TRUE) {
-        this->setStateAt(pins.Q, TRUE, true);
-        this->setStateAt(pins.notQ, FALSE, true);
+        this->setStateAt(pins.Q, TRUE);
+        this->setStateAt(pins.notQ, FALSE);
     } else {
         if (clock == TRUE) {
-            this->setStateAt(pins.Q, data, true);
-            this->setStateAt(pins.notQ, not_gate(data), true);
+            this->setStateAt(pins.Q, data);
+            this->setStateAt(pins.notQ, not_gate(data));
         }
     }
 }

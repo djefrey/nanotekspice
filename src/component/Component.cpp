@@ -22,6 +22,14 @@ nts::Component::Component(std::string model, std::size_t nbPins)
     }
 }
 
+void nts::Component::simulate(std::size_t tick)
+{
+    if (_lastUpdate != tick) {
+        _lastUpdate = tick;
+        update();
+    }
+}
+
 nts::Tristate nts::Component::compute(std::size_t pin)
 {
     if (pin >= this->_nbPins)
@@ -31,6 +39,15 @@ nts::Tristate nts::Component::compute(std::size_t pin)
 
 void nts::Component::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
+    if (this->_types[pin] == other.getPinTypeAt(otherPin)
+    && (this->_types[pin] != UNUSED))
+        throw NtsError("Component::setLink()", "Invalid link : IN -> IN / OUT -> OUT");
+    if (other.getPinTypeAt(otherPin) == OUTPUT) {
+        for (Connection conn : this->getConnectionsAt(pin)) {
+            if (conn.component->getPinTypeAt(conn.pin) == OUTPUT)
+                throw NtsError("Component::setLink()", "Invalid link, an OUT -> IN conn already exists");
+        }
+    }
     this->addConnectionAt(pin, other, otherPin);
     other.addConnectionAt(otherPin, *this, pin);
 }
@@ -79,24 +96,31 @@ void nts::Component::addConnectionAt(nts::PinId pin, nts::IComponent &component,
 
 nts::Tristate nts::Component::readStateAt(nts::PinId pin)
 {
+    Tristate state = UNDEFINED;
+
     if (pin >= this->_nbPins)
         throw NtsError("Component::readStateAt()", "Invalid pin");
-    return this->_states[pin];
+    for (Connection conn : this->getConnectionsAt(pin)) {
+        conn.component->simulate(this->_lastUpdate);
+        if (conn.component->getPinTypeAt(conn.pin) & OUTPUT)
+            state = conn.component->getStateAt(conn.pin);
+    }
+    this->setStateAt(pin, state);
+    return state;
 }
 
-void nts::Component::setStateAt(PinId pin, Tristate state, bool update)
+void nts::Component::setStateAt(PinId pin, Tristate state)
 {
     if (pin >= this->_nbPins)
         throw NtsError("Component::setStateAt()", "Invalid pin");
-    if (update) {
-        for (Connection conn : this->_connections[pin]) {
-            if (!(conn.component->getPinTypeAt(conn.pin) & INPUT))
-                continue;
-            conn.component->setStateAt(conn.pin, state, false);
-        }
-        this->_updatedPins.push_back(pin);
-    }
     this->_states[pin] = state;
+}
+
+nts::Tristate nts::Component::getStateAt(PinId pin)
+{
+    if (pin >= this->_nbPins)
+        throw NtsError("Component::getStateAt()", "Invalid pin");
+    return this->_states[pin];
 }
 
 nts::PinType nts::Component::getPinTypeAt(PinId pin) const

@@ -22,14 +22,13 @@ nts::Logger::~Logger()
     this->file.close();
 }
 
-void nts::Logger::simulate(std::size_t tick)
+void nts::Logger::update()
 {
     Tristate clock = readStateAt(8);
     Tristate inhibit = readStateAt(9);
     Tristate bit;
     char c = 0;
 
-    (void) tick;
     if (inhibit == TRUE || clock != TRUE)
         return;
     for (std::size_t pin = 0; pin <= 7; pin++) {

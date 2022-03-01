@@ -15,7 +15,7 @@ namespace nts {
             Selector4512();
             ~Selector4512() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

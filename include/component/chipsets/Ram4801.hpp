@@ -17,7 +17,7 @@ namespace nts {
             Ram4801();
             ~Ram4801() = default;
 
-            void simulate(std::size_t tick);
+            void update();
 
         protected:
         private:

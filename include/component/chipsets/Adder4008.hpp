@@ -15,7 +15,7 @@ namespace nts {
             Adder4008();
             ~Adder4008() = default;
 
-            void simulate(std::size_t tick);
+            void update();
             std::tuple<Tristate, Tristate> add(Tristate a, Tristate b, Tristate c);
 
         protected:

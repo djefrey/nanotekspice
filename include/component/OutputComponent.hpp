@@ -15,7 +15,7 @@ namespace nts {
             OutputComponent();
             ~OutputComponent() = default;
 
-            void simulate(std::size_t tick);
+            void update();
             Tristate getValue();
 
         protected:
