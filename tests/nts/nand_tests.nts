@@ -1,0 +1,27 @@
+.chipsets
+4011 nand
+
+true true
+false false
+
+output out1
+output out2
+output out3
+output out4
+
+.links
+nand:1 true:1
+nand:2 true:1
+
+nand:3 out1:1
+nand:4 out2:1
+
+nand:5 true:1
+nand:6 false:1
+
+nand:8 true:1
+
+nand:10 out3:1
+nand:11 out4:1
+
+nand:12 false:1

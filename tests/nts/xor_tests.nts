@@ -1,0 +1,27 @@
+.chipsets
+4030 xor
+
+true true
+false false
+
+output out1
+output out2
+output out3
+output out4
+
+.links
+xor:1 true:1
+xor:2 true:1
+
+xor:3 out1:1
+xor:4 out2:1
+
+xor:5 true:1
+xor:6 false:1
+
+xor:8 true:1
+
+xor:10 out3:1
+xor:11 out4:1
+
+xor:12 false:1

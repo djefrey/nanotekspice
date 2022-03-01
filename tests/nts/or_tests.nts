@@ -1,0 +1,27 @@
+.chipsets
+4071 or
+
+true true
+false false
+
+output out1
+output out2
+output out3
+output out4
+
+.links
+or:1 true:1
+or:2 true:1
+
+or:3 out1:1
+or:4 out2:1
+
+or:5 false:1
+or:6 false:1
+
+or:8 true:1
+
+or:10 out3:1
+or:11 out4:1
+
+or:12 false:1

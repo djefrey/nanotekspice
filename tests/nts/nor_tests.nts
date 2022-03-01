@@ -1,0 +1,27 @@
+.chipsets
+4001 nor
+
+true true
+false false
+
+output out1
+output out2
+output out3
+output out4
+
+.links
+nor:1 true:1
+nor:2 true:1
+
+nor:3 out1:1
+nor:4 out2:1
+
+nor:5 false:1
+nor:6 false:1
+
+nor:8 true:1
+
+nor:10 out3:1
+nor:11 out4:1
+
+nor:12 false:1

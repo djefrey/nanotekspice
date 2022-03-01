@@ -1,0 +1,20 @@
+.chipsets
+4081 and
+true true
+false false
+output out1
+output out2
+output out3
+output out4
+
+.links
+and:1 true:1
+and:2 true:1
+and:3 out1:1
+and:4 out2:1
+and:5 true:1
+and:6 false:1
+and:8 true:1
+and:10 out3:1
+and:11 out4:1
+and:12 false:1
