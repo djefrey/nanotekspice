@@ -9,10 +9,10 @@
 
 nts::Adder4008::Adder4008() : Component("4008", 16)
 {
-    const std::size_t inputs[] = {6, 5, 4, 3, 2, 1, 0, 14};
+    const std::size_t inputs[] = {8, 6, 5, 4, 3, 2, 1, 0, 14};
     const std::size_t outputs[] = {9, 10, 11, 12};
 
-    for (std::size_t i = 0; i < 8; i++)
+    for (std::size_t i = 0; i < 9; i++)
         setPinTypeAt(inputs[i], INPUT);
     for (std::size_t i = 0; i < 4; i++)
         setPinTypeAt(outputs[i], OUTPUT);
@@ -22,10 +22,10 @@ void nts::Adder4008::update()
 {
     const std::size_t inputs[] = {6, 5, 4, 3, 2, 1, 0, 14};
     const std::size_t outputs[] = {9, 10, 11, 12};
-    Tristate stateA;
-    Tristate stateB;
     Tristate c = readStateAt(8);
     std::tuple<Tristate, Tristate> result;
+    Tristate stateA;
+    Tristate stateB;
 
     for (std::size_t i = 0; i < 4; i++) {
         stateA = readStateAt(inputs[i * 2]);

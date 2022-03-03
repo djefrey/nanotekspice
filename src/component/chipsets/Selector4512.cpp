@@ -9,12 +9,12 @@
 
 nts::Selector4512::Selector4512() : Component("4514", 16)
 {
-    const std::size_t inputs[] = {10, 11, 12, 14, 9};
-    const std::size_t outputs[] = {0, 1, 2, 3, 4, 5, 6, 8, 13};
+    const std::size_t inputs[] = {0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 14};
+    const std::size_t outputs[] = {13};
 
-    for (std::size_t i = 0; i < 5; i++)
+    for (std::size_t i = 0; i < 13; i++)
         setPinTypeAt(inputs[i], INPUT);
-    for (std::size_t i = 0; i < 9; i++)
+    for (std::size_t i = 0; i < 1; i++)
         setPinTypeAt(outputs[i], OUTPUT);
 }
 

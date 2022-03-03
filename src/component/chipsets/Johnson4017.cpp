@@ -7,7 +7,7 @@
 
 #include "component/chipsets/Johnson4017.hpp"
 
-nts::Johnson4017::Johnson4017() : Component("Johnson4017", 14)
+nts::Johnson4017::Johnson4017() : Component("Johnson4017", 15)
 {
     const std::size_t inputs[] = {13, 12, 14};
     const std::size_t outputs[] = {0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11};
