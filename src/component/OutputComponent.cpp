@@ -13,6 +13,10 @@ nts::OutputComponent::OutputComponent() : Component("Output", 1)
     setPinTypeAt(0, INPUT);
 }
 
+nts::OutputComponent::OutputComponent(std::string model, std::size_t nbPins) : Component(model, nbPins)
+{
+}
+
 void nts::OutputComponent::update()
 {
     readStateAt(0);

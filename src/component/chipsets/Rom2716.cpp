@@ -24,9 +24,9 @@ nts::Rom2716::Rom2716() : Component("rom", 24)
     if (_fd == -1)
         throw NtsError("Rom2716::Rom2716()", "Could not open rom.bin");
     fstat(_fd, &s);
-    if (s.st_size != 1024 * 16)
+    if (s.st_size != 2 * 1024)
         throw NtsError("Rom2716::Rom2716()", "rom.bin is not 16KB");
-    _data = (uint8_t*) mmap(NULL, 16 * 1024, PROT_READ, MAP_PRIVATE, _fd, 0);
+    _data = (uint8_t*) mmap(NULL, 2 * 1024, PROT_READ, MAP_PRIVATE, _fd, 0);
     if (!_data)
         throw NtsError("Rom2716::Rom2716()", "Could not map rom.bin");
 
@@ -38,7 +38,7 @@ nts::Rom2716::Rom2716() : Component("rom", 24)
 
 nts::Rom2716::~Rom2716()
 {
-    munmap(_data, 16 * 1024);
+    munmap(_data, 2 * 1024);
     close(_fd);
 }
 
@@ -60,8 +60,6 @@ void nts::Rom2716::update()
             if (state == TRUE)
                 addr |= (1 << i);
         }
-        if (addr == 2048)
-            return;
         byte = *(_data + addr);
         for (std::size_t i = 0; i < 8; i++)
             setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE);

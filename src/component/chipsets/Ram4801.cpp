@@ -13,7 +13,7 @@ nts::Ram4801::Ram4801() : Component("4801", 24)
     const std::size_t inputs[] = {7, 6, 5, 4, 3, 2, 1, 0, 22, 21, 17, 19, 20};
     const std::size_t inout[] = {8, 9, 10, 12, 13, 14, 15, 16};
 
-    _data = std::unique_ptr<uint8_t>((uint8_t*) malloc(8 * 1024));
+    _data = std::unique_ptr<uint8_t>((uint8_t*) malloc(1024));
     if (_data.get() == nullptr)
         throw NtsError("Ram4801:Ram4801", "Could not allocate memory");
     for (std::size_t i = 0; i < 13; i++)

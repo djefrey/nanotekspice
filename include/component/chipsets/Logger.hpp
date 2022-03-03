@@ -8,15 +8,17 @@
 #pragma once
 
 #include <fstream>
-#include "component/Component.hpp"
+#include "component/OutputComponent.hpp"
 
 namespace nts {
-    class Logger : public Component {
+    class Logger : public OutputComponent {
         public:
             Logger();
             ~Logger();
 
             void update();
+            Tristate getValue();
+            bool isVisible() { return false; };
 
         protected:
         private:

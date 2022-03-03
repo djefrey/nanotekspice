@@ -15,10 +15,13 @@ namespace nts {
             OutputComponent();
             ~OutputComponent() = default;
 
-            void update();
-            Tristate getValue();
+            virtual void update();
+            virtual Tristate getValue();
+            virtual bool isVisible() { return true; };
 
         protected:
+            OutputComponent(std::string model, std::size_t nbPins);
+
         private:
     };
 }

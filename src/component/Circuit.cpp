@@ -69,8 +69,10 @@ void nts::Circuit::printInOut() const
             std::cout << "  " << input->getName() <<": " << input->getValue() << "\n";
     }
     std::cout << "output(s):\n";
-    for (OutputComponent *output : this->_outputs)
-        std::cout << "  " << output->getName() << ": " << output->getValue() << "\n";
+    for (OutputComponent *output : this->_outputs) {
+        if (output->isVisible())
+            std::cout << "  " << output->getName() << ": " << output->getValue() << "\n";
+    }
     std::cout.flush();
 }
 
