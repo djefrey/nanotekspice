@@ -24,20 +24,22 @@ void nts::Selector4512::update()
     const std::size_t channels[] = {0, 1, 2, 3, 4, 5, 6, 8};
     Tristate enable = not_gate(readStateAt(14));
     Tristate inhibit = readStateAt(9);
-    Tristate state;
+    Tristate bits[4];
     std::size_t idx = 0;
 
+    for (std::size_t i = 0; i < 4; i++)
+        bits[i] = readStateAt(inputs[i]);
+    for (std::size_t i = 0; i < 8; i++)
+        readStateAt(channels[idx]);
     if (inhibit == TRUE)
-        setStateAt(13, FALSE);
+        setStateAt(13, UNDEFINED);
     if (inhibit == FALSE && enable == TRUE) {
         for (std::size_t i = 0; i < 3; i++) {
-            state = readStateAt(inputs[i]);
-            if (state == UNDEFINED)
+            if (bits[i] == UNDEFINED)
                 return;
-            if (state == TRUE)
+            if (bits[i] == TRUE)
                 idx |= (1 << i);
         }
-        state = readStateAt(channels[idx]);
-        setStateAt(13, state);
+        setStateAt(13, readStateAt(channels[idx]));
     }
 }

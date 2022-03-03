@@ -31,24 +31,27 @@ void nts::Ram4801::update()
     Tristate chipEnable = not_gate(readStateAt(17));
     Tristate outputEnable = not_gate(readStateAt(19));
     Tristate writeEnable = not_gate(readStateAt(20));
+    Tristate addressBits[10];
+    Tristate dataBits[8];
     std::size_t addr = 0;
     uint8_t val = 0;
-    Tristate state;
 
+    for (std::size_t i = 0; i < 10; i++)
+        addressBits[i] = readStateAt(address[i]);
+    for (std::size_t i = 0; i < 8; i++)
+        dataBits[i] = readStateAt(data[i]);
     if (chipEnable == TRUE) {
         for (std::size_t i = 0; i < 10; i++) {
-            state = readStateAt(address[i]);
-            if (state == UNDEFINED)
+            if (addressBits[i] == UNDEFINED)
                 return;
-            if (state == TRUE)
+            if (addressBits[i] == TRUE)
                 addr |= (1 << i);
         }
         if (writeEnable == TRUE) {
             for (std::size_t i = 0; i < 8; i++) {
-                state = readStateAt(data[i]);
-                if (state == UNDEFINED)
+                if (dataBits[i] == UNDEFINED)
                     return;
-                if (state == TRUE)
+                if (dataBits[i] == TRUE)
                     val |= (1 << i);
             }
             *(_data.get() + addr) = val;

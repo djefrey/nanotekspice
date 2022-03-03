@@ -24,19 +24,20 @@ void nts::Decoder4514::update()
     const std::size_t outputs[] = {10, 8, 9, 7, 6, 5, 4, 3, 17, 16, 19, 18, 13, 12, 15};
     Tristate strobe = readStateAt(0);
     Tristate inhibit = readStateAt(22);
-    Tristate state;
+    Tristate values[4];
     std::size_t idx = 0;
 
+    for (std::size_t i = 0; i < 4; i++)
+        values[i] = readStateAt(inputs[i]);
     if (inhibit == TRUE) {
         for (std::size_t i = 0; i < 15; i++)
             setStateAt(outputs[i], FALSE);
     }
     if (inhibit == FALSE && strobe == TRUE) {
         for (std::size_t i = 0; i < 4; i++) {
-            state = readStateAt(inputs[i]);
-            if (state == UNDEFINED)
+            if (values[i] == UNDEFINED)
                 return;
-            if (state == TRUE)
+            if (values[i] == TRUE)
                 idx |= (1 << i);
         }
         for (std::size_t i = 0; i < 15; i++)
