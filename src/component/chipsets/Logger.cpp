@@ -20,8 +20,6 @@ nts::Logger::Logger() : OutputComponent("logger", 10)
 
 nts::Logger::~Logger()
 {
-    this->file.flush();
-    this->file.close();
 }
 
 void nts::Logger::update()
@@ -41,7 +39,6 @@ void nts::Logger::update()
         if (bits[pin] == TRUE)
             c |= (1 << pin);
     }
-    std::cout << c << std::endl;
     this->file << c;
 }
 
