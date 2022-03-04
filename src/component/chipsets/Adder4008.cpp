@@ -10,11 +10,11 @@
 nts::Adder4008::Adder4008() : Component("4008", 16)
 {
     const std::size_t inputs[] = {8, 6, 5, 4, 3, 2, 1, 0, 14};
-    const std::size_t outputs[] = {9, 10, 11, 12};
+    const std::size_t outputs[] = {9, 10, 11, 12, 13};
 
     for (std::size_t i = 0; i < 9; i++)
         setPinTypeAt(inputs[i], INPUT);
-    for (std::size_t i = 0; i < 4; i++)
+    for (std::size_t i = 0; i < 5; i++)
         setPinTypeAt(outputs[i], OUTPUT);
 }
 
