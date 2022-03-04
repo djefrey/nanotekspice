@@ -23,6 +23,7 @@ nts::NTS::NTS(const std::string &config) : _circuit("Main Circuit", 0)
     Parser parser(_circuit);
 
     parser.parseFile(config);
+    simulateCmd();
 }
 
 int nts::NTS::run()
@@ -77,7 +78,7 @@ void nts::NTS::simulateCmd()
 
 void nts::NTS::displayCmd()
 {
-    std::cout << "tick: " << this->_tick << "\n";
+    std::cout << "tick: " << (this->_tick - 1) << "\n";
     this->_circuit.printInOut();
 }
 
