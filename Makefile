@@ -35,8 +35,11 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Selector4512.cpp		\
 						src/component/chipsets/Ram4801.cpp
 
-TESTS_SRC			=	tests/GateTests.cpp							\
-						tests/FlipFlopTests.cpp
+TESTS_SRC			=	tests/TestsTools.cpp						\
+						tests/NTSTests.cpp							\
+						tests/GateTests.cpp							\
+						tests/FlipFlopTests.cpp						\
+						tests/DecoderTests.cpp
 
 GCNO_FILES			=	$(SRC:.cpp=.gcno) $(TESTS_SRC:.cpp=.gcno)
 GCDA_FILES			=	$(SRC:.cpp=.gcda) $(TESTS_SRC:.cpp=.gcda)

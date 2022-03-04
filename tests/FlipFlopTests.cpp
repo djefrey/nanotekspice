@@ -5,92 +5,81 @@
 ** FlipFlopTests
 */
 
-#include <criterion/criterion.h>
-#include "component/Circuit.hpp"
-#include "component/chipsets/FlipFlop4013.hpp"
+#include "Tests.hpp"
 
-/*
-static void testFlipFlop(nts::IComponent &comp,
-                    nts::PinId clock,
-                    nts::PinId data,
-                    nts::PinId set,
-                    nts::PinId reset,
-                    nts::PinId q,
-                    nts::PinId nq)
+using namespace nts;
+
+void set_clocks(nts::Circuit &circuit, nts::Tristate state)
 {
-    comp.setStateAt(clock, nts::FALSE, false);
-    comp.setStateAt(data, nts::FALSE, false);
-    comp.setStateAt(set, nts::FALSE, false);
-    comp.setStateAt(reset, nts::FALSE, false);
+    circuit.setInputState("cl_1_clock", state);
+    circuit.setInputState("cl_2_clock", state);
+}
 
-    comp.simulate(0);
+void set_datas(nts::Circuit &circuit, nts::Tristate state)
+{
+    circuit.setInputState("in_1_data", state);
+    circuit.setInputState("in_2_data", state);
+}
 
-    // FIRST STATE
+void set_set(nts::Circuit &circuit, nts::Tristate state)
+{
+    circuit.setInputState("in_1_set", state);
+    circuit.setInputState("in_2_set", state);
+}
 
-    cr_assert_eq(comp.readStateAt(q), nts::UNDEFINED);
-    cr_assert_eq(comp.readStateAt(nq), nts::UNDEFINED);
+void set_reset(nts::Circuit &circuit, nts::Tristate state)
+{
+    circuit.setInputState("in_1_reset", state);
+    circuit.setInputState("in_2_reset", state);
+}
 
-    // DATA = FALSE
-
-    comp.setStateAt(clock, nts::TRUE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::FALSE);
-    cr_assert_eq(comp.readStateAt(nq), nts::TRUE);
-
-    comp.setStateAt(clock, nts::FALSE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::FALSE);
-    cr_assert_eq(comp.readStateAt(nq), nts::TRUE);
-
-    // DATA = TRUE
-
-    comp.setStateAt(clock, nts::TRUE, false);
-    comp.setStateAt(data, nts::TRUE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::TRUE);
-    cr_assert_eq(comp.readStateAt(nq), nts::FALSE);
-
-    comp.setStateAt(clock, nts::FALSE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::TRUE);
-    cr_assert_eq(comp.readStateAt(nq), nts::FALSE);
-
-    // RESET = 1
-
-    comp.setStateAt(reset, nts::TRUE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::FALSE);
-    cr_assert_eq(comp.readStateAt(nq), nts::TRUE);
-
-    // SET = 1
-
-    comp.setStateAt(reset, nts::FALSE, false);
-    comp.setStateAt(set, nts::TRUE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::TRUE);
-    cr_assert_eq(comp.readStateAt(nq), nts::FALSE);
-
-    // SET = 1, RESET = 1
-
-    comp.setStateAt(reset, nts::TRUE, false);
-    comp.simulate(0);
-
-    cr_assert_eq(comp.readStateAt(q), nts::TRUE);
-    cr_assert_eq(comp.readStateAt(nq), nts::TRUE);
+void assert_outputs(nts::Circuit &circuit, Tristate state, Tristate state2)
+{
+    assert_output(circuit, "out_1_q", state);
+    assert_output(circuit, "out_2_q", state);
+    assert_output(circuit, "out_1_qb", state2);
+    assert_output(circuit, "out_2_qb", state2);
 }
 
 Test(FlipFlop, testFF)
 {
-    nts::Circuit circuit("Test", 0);
-    nts::IComponent &comp = circuit.createComponent("4013", "flipflop");
+    std::size_t tick = 0;
+    nts::Circuit circuit("circuit", 0);
+    init_circuit(circuit, "tests/nts/4013_flipflop.nts");
 
-    testFlipFlop(comp, 2, 4, 5, 3, 0, 1);
-    testFlipFlop(comp, 10, 8, 7, 9, 12, 11);
+    set_clocks(circuit, TRUE);
+    set_datas(circuit, FALSE);
+    set_set(circuit, FALSE);
+    set_reset(circuit, FALSE);
+
+    simulate(circuit, tick);
+    assert_outputs(circuit, FALSE, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, FALSE, TRUE);
+
+    set_datas(circuit, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, TRUE, FALSE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, TRUE, FALSE);
+
+    set_reset(circuit, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, FALSE, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, FALSE, TRUE);
+
+    set_datas(circuit, FALSE);
+    set_reset(circuit, FALSE);
+    set_set(circuit, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, TRUE, FALSE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, TRUE, FALSE);
+
+    set_reset(circuit, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, TRUE, TRUE);
+    simulate(circuit, tick);
+    assert_outputs(circuit, TRUE, TRUE);
 }
-*/
