@@ -9,31 +9,31 @@
 
 using namespace nts;
 
-void set_clocks(nts::Circuit &circuit, nts::Tristate state)
+static void set_clocks(nts::Circuit &circuit, nts::Tristate state)
 {
     circuit.setInputState("cl_1_clock", state);
     circuit.setInputState("cl_2_clock", state);
 }
 
-void set_datas(nts::Circuit &circuit, nts::Tristate state)
+static void set_datas(nts::Circuit &circuit, nts::Tristate state)
 {
     circuit.setInputState("in_1_data", state);
     circuit.setInputState("in_2_data", state);
 }
 
-void set_set(nts::Circuit &circuit, nts::Tristate state)
+static void set_set(nts::Circuit &circuit, nts::Tristate state)
 {
     circuit.setInputState("in_1_set", state);
     circuit.setInputState("in_2_set", state);
 }
 
-void set_reset(nts::Circuit &circuit, nts::Tristate state)
+static void set_reset(nts::Circuit &circuit, nts::Tristate state)
 {
     circuit.setInputState("in_1_reset", state);
     circuit.setInputState("in_2_reset", state);
 }
 
-void assert_outputs(nts::Circuit &circuit, Tristate state, Tristate state2)
+static void assert_outputs(nts::Circuit &circuit, Tristate state, Tristate state2)
 {
     assert_output(circuit, "out_1_q", state);
     assert_output(circuit, "out_2_q", state);

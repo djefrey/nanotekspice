@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "Tests.hpp"
 
-void set_inputs(Circuit &circuit, Tristate a, Tristate b, Tristate c, Tristate d)
+static void set_inputs(Circuit &circuit, Tristate a, Tristate b, Tristate c, Tristate d)
 {
     circuit.setInputState("in_0", a);
     circuit.setInputState("in_1", b);
@@ -16,7 +16,7 @@ void set_inputs(Circuit &circuit, Tristate a, Tristate b, Tristate c, Tristate d
     circuit.setInputState("in_3", d);
 }
 
-void set_active(Circuit &circuit, Tristate strobe, Tristate inhibit)
+static void set_active(Circuit &circuit, Tristate strobe, Tristate inhibit)
 {
     circuit.setInputState("strobe", strobe);
     circuit.setInputState("inhibit", inhibit);
@@ -24,7 +24,7 @@ void set_active(Circuit &circuit, Tristate strobe, Tristate inhibit)
 
 #include <iostream>
 
-void assert_channel_is_active(Circuit &circuit, int chann)
+static void assert_channel_is_active(Circuit &circuit, int chann)
 {
     char output[8] = {0};
 
