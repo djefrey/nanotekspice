@@ -23,7 +23,7 @@ void nts::Johnson4017::update()
     Tristate clock0 = readStateAt(13);
     Tristate clock1 = readStateAt(12);
     Tristate reset = readStateAt(14);
-    Tristate andClocks = and_gate(clock0, not_gate(clock1));
+    Tristate andClocks = Gates::and_gate(clock0, Gates::not_gate(clock1));
 
     if (reset == TRUE) {
         _count = 0;

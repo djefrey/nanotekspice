@@ -14,5 +14,5 @@ nts::Clock::Clock() : InputComponent("Clock")
 void nts::Clock::update()
 {
     InputComponent::update();
-    this->_state = not_gate(this->_state);
+    this->_state = Gates::not_gate(this->_state);
 }

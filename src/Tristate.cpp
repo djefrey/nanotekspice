@@ -8,7 +8,7 @@
 #include "Tristate.hpp"
 #include "NTS.hpp"
 
-nts::Tristate nts::not_gate(nts::Tristate a)
+nts::Tristate nts::Gates::not_gate(nts::Tristate a)
 {
     if (a == UNDEFINED)
         return UNDEFINED;
@@ -16,7 +16,7 @@ nts::Tristate nts::not_gate(nts::Tristate a)
         return a == TRUE ? FALSE : TRUE;
 }
 
-nts::Tristate nts::and_gate(nts::Tristate a, nts::Tristate b)
+nts::Tristate nts::Gates::and_gate(nts::Tristate a, nts::Tristate b)
 {
     if (a != UNDEFINED && b != UNDEFINED)
         return a && b ? TRUE : FALSE;
@@ -28,7 +28,7 @@ nts::Tristate nts::and_gate(nts::Tristate a, nts::Tristate b)
         return UNDEFINED;
 }
 
-nts::Tristate nts::or_gate(nts::Tristate a, nts::Tristate b)
+nts::Tristate nts::Gates::or_gate(nts::Tristate a, nts::Tristate b)
 {
     if (a != UNDEFINED && b != UNDEFINED)
         return a || b ? TRUE : FALSE;
@@ -40,22 +40,22 @@ nts::Tristate nts::or_gate(nts::Tristate a, nts::Tristate b)
         return UNDEFINED;
 }
 
-nts::Tristate nts::nand_gate(nts::Tristate a, nts::Tristate b)
+nts::Tristate nts::Gates::nand_gate(nts::Tristate a, nts::Tristate b)
 {
     return not_gate(and_gate(a, b));
 }
 
-nts::Tristate nts::nor_gate(nts::Tristate a, nts::Tristate b)
+nts::Tristate nts::Gates::nor_gate(nts::Tristate a, nts::Tristate b)
 {
     return not_gate(or_gate(a, b));
 }
 
-nts::Tristate nts::xor_gate(nts::Tristate a, nts::Tristate b)
+nts::Tristate nts::Gates::xor_gate(nts::Tristate a, nts::Tristate b)
 {
     return and_gate(or_gate(a, b), nand_gate(a, b));
 }
 
-nts::Tristate nts::get_state_from_char(char c)
+nts::Tristate nts::Gates::get_state_from_char(char c)
 {
     switch (c) {
         case '0':
@@ -67,6 +67,19 @@ nts::Tristate nts::get_state_from_char(char c)
         default:
             throw nts::NtsError("get_state_from_char()", "Invalid char");
     }
+}
+
+std::size_t nts::Gates::statesToInt(nts::Tristate states[], std::size_t nbStates)
+{
+    std::size_t val = 0;
+
+    for (std::size_t i = 0; i < nbStates; i++) {
+        if (states[i] == UNDEFINED)
+            throw InvalidStateError();
+        if (states[i] == TRUE)
+            val |= (1 << i);
+    }
+    return val;
 }
 
 std::ostream &nts::operator<<(std::ostream &s, nts::Tristate value)

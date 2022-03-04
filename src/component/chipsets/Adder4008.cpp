@@ -39,10 +39,11 @@ void nts::Adder4008::update()
 
 std::tuple<nts::Tristate, nts::Tristate> nts::Adder4008::add(nts::Tristate a, nts::Tristate b, nts::Tristate c)
 {
-    Tristate XorAB = xor_gate(a, b);
-    Tristate XorS = xor_gate(XorAB, c);
-    Tristate AndABS = and_gate(XorAB, c);
-    Tristate AndAB = and_gate(a, b);
-    Tristate OrCout = or_gate(AndABS, AndAB);
+    Tristate XorAB = Gates::xor_gate(a, b);
+    Tristate XorS = Gates::xor_gate(XorAB, c);
+    Tristate AndABS = Gates::and_gate(XorAB, c);
+    Tristate AndAB = Gates::and_gate(a, b);
+    Tristate OrCout = Gates::or_gate(AndABS, AndAB);
+
     return (std::make_tuple<Tristate, Tristate>(std::move(XorS), std::move(OrCout)));
 }

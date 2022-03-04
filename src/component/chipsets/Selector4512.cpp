@@ -22,30 +22,26 @@ void nts::Selector4512::update()
 {
     const std::size_t inputs[] = {10, 11, 12};
     const std::size_t channels[] = {0, 1, 2, 3, 4, 5, 6, 8};
-    Tristate enable = not_gate(readStateAt(14));
+    Tristate enable = Gates::not_gate(readStateAt(14));
     Tristate inhibit = readStateAt(9);
     Tristate bits[4];
+    Tristate channelsValues[8];
     std::size_t idx = 0;
 
-    for (std::size_t i = 0; i < 4; i++)
-        bits[i] = readStateAt(inputs[i]);
-    for (std::size_t i = 0; i < 8; i++)
-        readStateAt(channels[idx]);
-    if (enable == FALSE) {
-        setStateAt(13, UNDEFINED);
-    } else if (enable == TRUE) {
-        if (inhibit == TRUE) {
-            setStateAt(13, FALSE);
-        } else if (inhibit == FALSE) {
-            for (std::size_t i = 0; i < 3; i++) {
-                if (bits[i] == UNDEFINED) {
-                    setStateAt(13, UNDEFINED);
-                    return;
-                }
-                if (bits[i] == TRUE)
-                    idx |= (1 << i);
+    readPins(inputs, bits, 4);
+    readPins(channels, channelsValues, 8);
+    try {
+        if (enable == FALSE) {
+            setStateAt(13, UNDEFINED);
+        } else if (enable == TRUE) {
+            if (inhibit == TRUE) {
+                setStateAt(13, FALSE);
+            } else if (inhibit == FALSE) {
+                idx = Gates::statesToInt(bits, 4);
+                setStateAt(13, channelsValues[idx]);
             }
-            setStateAt(13, readStateAt(channels[idx]));
         }
+    } catch (InvalidStateError &e) {
+        setStateAt(13, UNDEFINED);
     }
 }

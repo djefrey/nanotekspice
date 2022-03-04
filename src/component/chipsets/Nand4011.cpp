@@ -29,7 +29,7 @@ void nts::Nand4011::update()
         for (std::size_t i = 0; i < 4; i++) {
             stateA = readStateAt(inputs[i * 2]);
             stateB = readStateAt(inputs[i * 2 + 1]);
-            this->setStateAt(outputs[i], nand_gate(stateA, stateB));
+            this->setStateAt(outputs[i], Gates::nand_gate(stateA, stateB));
         }
     }
 }

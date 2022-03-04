@@ -136,3 +136,15 @@ void nts::Component::setPinTypeAt(PinId pin, PinType type)
         throw NtsError("Component::getPinTypeAt()", "Invalid pin");
     this->_types[pin] = type;
 }
+
+void nts::Component::readPins(const PinId pins[], Tristate states[], std::size_t size)
+{
+    for (std::size_t i = 0; i < size; i++)
+        states[i] = readStateAt(pins[i]);
+}
+
+void nts::Component::setStateToPins(const PinId pins[], Tristate state, std::size_t size)
+{
+    for (std::size_t i = 0; i < size; i++)
+        setStateAt(pins[i], state);
+}

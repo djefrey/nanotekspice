@@ -8,6 +8,7 @@
 #pragma once
 
 #include <ostream>
+#include <exception>
 
 namespace nts {
     enum Tristate {
@@ -16,14 +17,22 @@ namespace nts {
         TRUE = (true),
     };
 
-    Tristate  not_gate(Tristate a);
+    class InvalidStateError : public std::exception {};
 
-    Tristate  and_gate(Tristate a, Tristate b);
-    Tristate   or_gate(Tristate a, Tristate b);
-    Tristate nand_gate(Tristate a, Tristate b);
-    Tristate  nor_gate(Tristate a, Tristate b);
-    Tristate  xor_gate(Tristate a, Tristate b);
+    class Gates {
+        public:
+            static Tristate  not_gate(Tristate a);
 
-    Tristate get_state_from_char(char c);
+            static Tristate  and_gate(Tristate a, Tristate b);
+            static Tristate   or_gate(Tristate a, Tristate b);
+            static Tristate nand_gate(Tristate a, Tristate b);
+            static Tristate  nor_gate(Tristate a, Tristate b);
+            static Tristate  xor_gate(Tristate a, Tristate b);
+
+            static Tristate get_state_from_char(char c);
+
+            static std::size_t statesToInt(Tristate states[], std::size_t nbStates);
+    };
+
     std::ostream &operator<<(std::ostream &s, Tristate value);
 }

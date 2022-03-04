@@ -46,7 +46,7 @@ void nts::FlipFlop4013::updateFlipFlop(const FlipFlopPins &pins)
     } else {
         if (clock == TRUE) {
             this->setStateAt(pins.Q, data);
-            this->setStateAt(pins.notQ, not_gate(data));
+            this->setStateAt(pins.notQ, Gates::not_gate(data));
         }
     }
 }

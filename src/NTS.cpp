@@ -64,7 +64,7 @@ bool nts::NTS::setInputFromCmd(const std::string &cmd)
 
     if (pos == cmd.npos || cmd.size() != (pos + 2))
         return false;
-    state = get_state_from_char(cmd[pos + 1]);
+    state = Gates::get_state_from_char(cmd[pos + 1]);
     _circuit.setInputState(cmd.substr(0, pos), state);
     return true;
 }

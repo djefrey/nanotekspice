@@ -28,7 +28,7 @@ void nts::Not4069::update()
     for (std::size_t s = 0; s < 6; s++) {
         for (std::size_t i = 0; i < 6; i++) {
             state = readStateAt(inputs[i]);
-            this->setStateAt(outputs[i], not_gate(state));
+            this->setStateAt(outputs[i], Gates::not_gate(state));
         }
     }
 }

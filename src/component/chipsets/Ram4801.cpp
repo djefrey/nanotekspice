@@ -26,47 +26,30 @@ void nts::Ram4801::update()
 {
     const std::size_t address[] = {7, 6, 5, 4, 3, 2, 1, 0, 22, 21};
     const std::size_t data[] = {8, 9, 10, 12, 13, 14, 15, 16};
-    Tristate chipEnable = not_gate(readStateAt(17));
-    Tristate outputEnable = not_gate(readStateAt(19));
-    Tristate writeEnable = not_gate(readStateAt(20));
+    Tristate chipEnable = Gates::not_gate(readStateAt(17));
+    Tristate outputEnable = Gates::not_gate(readStateAt(19));
+    Tristate writeEnable = Gates::not_gate(readStateAt(20));
     Tristate addressBits[10];
     Tristate dataBits[8];
     std::size_t addr = 0;
     uint8_t val = 0;
 
-    for (std::size_t i = 0; i < 10; i++)
-        addressBits[i] = readStateAt(address[i]);
-    for (std::size_t i = 0; i < 8; i++)
-        dataBits[i] = readStateAt(data[i]);
-    if (chipEnable == TRUE) {
-        for (std::size_t i = 0; i < 10; i++) {
-            if (addressBits[i] == UNDEFINED) {
-                setOutputsToUndef(data);
-                return;
+    readPins(address, addressBits, 10);
+    readPins(data, dataBits, 8);
+    try {
+        if (chipEnable == TRUE) {
+            addr = Gates::statesToInt(addressBits, 10);
+            if (writeEnable == TRUE) {
+                val = (uint8_t) Gates::statesToInt(dataBits, 8);
+                *(_data.get() + addr) = val;
+            } else if (outputEnable == TRUE) {
+                val = *(_data.get() + addr);
+                for (std::size_t i = 0; i < 8; i++)
+                    setStateAt(data[i], val & (1 << i) ? TRUE : FALSE);
             }
-            if (addressBits[i] == TRUE)
-                addr |= (1 << i);
         }
-        if (writeEnable == TRUE) {
-            for (std::size_t i = 0; i < 8; i++) {
-                if (dataBits[i] == UNDEFINED) {
-                    setOutputsToUndef(data);
-                    return;
-                }
-                if (dataBits[i] == TRUE)
-                    val |= (1 << i);
-            }
-            *(_data.get() + addr) = val;
-        } else if (outputEnable == TRUE) {
-            val = *(_data.get() + addr);
-            for (std::size_t i = 0; i < 8; i++)
-                setStateAt(data[i], val & (1 << i) ? TRUE : FALSE);
-        }
+    } catch (InvalidStateError &e) {
+        setStateToPins(data, UNDEFINED, 8);
     }
 }
 
-void nts::Ram4801::setOutputsToUndef(const std::size_t &outputs[])
-{
-    for (std::size_t i = 0; i < 8; i++)
-        setStateAt(outputs[i], UNDEFINED);
-}

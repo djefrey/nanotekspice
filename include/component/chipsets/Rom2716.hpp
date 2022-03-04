@@ -16,9 +16,9 @@ namespace nts {
         public:
             Rom2716();
             ~Rom2716();
+            Rom2716& operator=(Rom2716&&);
 
             void update();
-            void setOutputsToUndef(const std::size_t &outputs[]);
 
         protected:
         private:

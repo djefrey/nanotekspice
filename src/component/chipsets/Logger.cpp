@@ -24,22 +24,20 @@ nts::Logger::~Logger()
 
 void nts::Logger::update()
 {
+    const PinId inputs[] = {0, 1, 2, 3, 4, 5, 6, 7};
     Tristate clock = readStateAt(8);
     Tristate inhibit = readStateAt(9);
     Tristate bits[8];
-    char c = 0;
+    uint8_t c = 0;
 
-    for (std::size_t pin = 0; pin < 8; pin++)
-        bits[pin] = readStateAt(pin);
+    readPins(inputs, bits, 8);
     if (inhibit == TRUE || clock != TRUE)
         return;
-    for (std::size_t pin = 0; pin <= 7; pin++) {
-        if (bits[pin] == UNDEFINED)
-            return;
-        if (bits[pin] == TRUE)
-            c |= (1 << pin);
+    try {
+        c = (uint8_t) Gates::statesToInt(bits, 8);
+        this->file << c;
+    } catch (InvalidStateError &e) {
     }
-    this->file << c;
 }
 
 nts::Tristate nts::Logger::getValue()

@@ -44,6 +44,9 @@ namespace nts {
             void setPinTypeAt(PinId id, PinType type);
             Tristate readStateAt(PinId pin);
 
+            void readPins(const PinId pins[], Tristate states[], std::size_t size);
+            void setStateToPins(const PinId pins[], Tristate state, std::size_t size);
+
         private:
             std::string _model;
             std::string _name;

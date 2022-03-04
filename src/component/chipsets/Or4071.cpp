@@ -30,7 +30,7 @@ void nts::Or4071::update()
         for (std::size_t i = 0; i < 4; i++) {
             stateA = readStateAt(inputs[i * 2]);
             stateB = readStateAt(inputs[i * 2 + 1]);
-            this->setStateAt(outputs[i], or_gate(stateA, stateB));
+            this->setStateAt(outputs[i], Gates::or_gate(stateA, stateB));
         }
     }
 }

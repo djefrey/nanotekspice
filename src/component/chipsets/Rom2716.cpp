@@ -5,8 +5,6 @@
 ** Rom2716
 */
 
-#include <iostream>
-
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/mman.h>
@@ -29,7 +27,6 @@ nts::Rom2716::Rom2716() : Component("rom", 24)
     _data = (uint8_t*) mmap(NULL, 2 * 1024, PROT_READ, MAP_PRIVATE, _fd, 0);
     if (!_data)
         throw NtsError("Rom2716::Rom2716()", "Could not map rom.bin");
-
     for (std::size_t i = 0; i < 13; i++)
         setPinTypeAt(inputs[i], INPUT);
     for (std::size_t i = 0; i < 8; i++)
@@ -38,39 +35,41 @@ nts::Rom2716::Rom2716() : Component("rom", 24)
 
 nts::Rom2716::~Rom2716()
 {
-    munmap(_data, 2 * 1024);
-    close(_fd);
+    if (_data != nullptr && _fd != -1) {
+        munmap(_data, 2 * 1024);
+        close(_fd);
+    }
+}
+
+nts::Rom2716& nts::Rom2716::operator=(Rom2716&& other)
+{
+    this->_data = other._data;
+    this->_fd = other._fd;
+    other._data = nullptr;
+    other._fd = -1;
+    return *this;
 }
 
 void nts::Rom2716::update()
 {
     const PinId addressPins[] = {7, 6, 5, 4, 3, 2, 1, 0, 22, 21, 18};
     const PinId outputPins[] = {8, 9, 10, 12, 13, 14, 15, 16};
-    Tristate chipEnable = not_gate(readStateAt(17));
-    Tristate outEnable = not_gate(readStateAt(19));
-    Tristate state;
-    uint64_t addr = 0;
+    Tristate chipEnable = Gates::not_gate(readStateAt(17));
+    Tristate outEnable = Gates::not_gate(readStateAt(19));
+    Tristate addressBits[11];
+    std::size_t addr = 0;
     uint8_t byte;
 
-    if (chipEnable == TRUE && outEnable == TRUE) {
-        for (std::size_t i = 0; i < 10; i++) {
-            state = readStateAt(addressPins[i]);
-            if (state == UNDEFINED) {
-                setOutputsToUndef(outputPins);
-                return;
-            }
-            if (state == TRUE)
-                addr |= (1 << i);
-        }
-        byte = *(_data + addr);
-        for (std::size_t i = 0; i < 8; i++)
-            setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE);
-    } else
-        setOutputsToUndef(outputPins);
-}
-
-void nts::Rom2716::setOutputsToUndef(const std::size_t &outputs[])
-{
-    for (std::size_t i = 0; i < 8; i++)
-        setStateAt(outputs[i], UNDEFINED);
+    readPins(addressPins, addressBits, 11);
+    try {
+        if (chipEnable == TRUE && outEnable == TRUE) {
+            addr = Gates::statesToInt(addressBits, 11);
+            byte = *(_data + addr);
+            for (std::size_t i = 0; i < 8; i++)
+                setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE);
+        } else
+            setStateToPins(outputPins, UNDEFINED, 8);
+    } catch(InvalidStateError &e) {
+        setStateToPins(outputPins, UNDEFINED, 8);
+    }
 }
