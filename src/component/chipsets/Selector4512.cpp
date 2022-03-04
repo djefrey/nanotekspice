@@ -31,8 +31,10 @@ void nts::Selector4512::update()
         bits[i] = readStateAt(inputs[i]);
     for (std::size_t i = 0; i < 8; i++)
         readStateAt(channels[idx]);
-    if (inhibit == TRUE)
+    if (enable == FALSE)
         setStateAt(13, UNDEFINED);
+    if (inhibit == TRUE)
+        setStateAt(13, FALSE);
     if (inhibit == FALSE && enable == TRUE) {
         for (std::size_t i = 0; i < 3; i++) {
             if (bits[i] == UNDEFINED)

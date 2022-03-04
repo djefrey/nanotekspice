@@ -41,6 +41,6 @@ void nts::Decoder4514::update()
                 idx |= (1 << i);
         }
         for (std::size_t i = 0; i < 15; i++)
-            setStateAt(outputs[i], i == idx ? TRUE : FALSE);
+            setStateAt(outputs[i], i == idx ? TRUE : UNDEFINED);
     }
 }
