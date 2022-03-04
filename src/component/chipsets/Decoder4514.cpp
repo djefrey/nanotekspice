@@ -35,12 +35,20 @@ void nts::Decoder4514::update()
     }
     if (inhibit == FALSE && strobe == TRUE) {
         for (std::size_t i = 0; i < 4; i++) {
-            if (values[i] == UNDEFINED)
+            if (values[i] == UNDEFINED) {
+                setOutputsToUndef(outputs);
                 return;
+            }
             if (values[i] == TRUE)
                 idx |= (1 << i);
         }
         for (std::size_t i = 0; i < 15; i++)
-            setStateAt(outputs[i], i == idx ? TRUE : UNDEFINED);
+            setStateAt(outputs[i], i == idx ? TRUE : FALSE);
     }
+}
+
+void nts::Decoder4514::setOutputsToUndef(const std::size_t &outputs[])
+{
+    for (std::size_t i = 0; i < 15; i++)
+        setStateAt(outputs[i], UNDEFINED);
 }

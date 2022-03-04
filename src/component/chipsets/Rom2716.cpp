@@ -55,16 +55,22 @@ void nts::Rom2716::update()
     if (chipEnable == TRUE && outEnable == TRUE) {
         for (std::size_t i = 0; i < 10; i++) {
             state = readStateAt(addressPins[i]);
-            if (state == UNDEFINED)
+            if (state == UNDEFINED) {
+                setOutputsToUndef(outputPins);
                 return;
+            }
             if (state == TRUE)
                 addr |= (1 << i);
         }
         byte = *(_data + addr);
         for (std::size_t i = 0; i < 8; i++)
             setStateAt(outputPins[i], byte & (1 << i) ? TRUE : FALSE);
-    } else {
-        for (std::size_t i = 0; i < 8; i++)
-            setStateAt(outputPins[i], UNDEFINED);
-    }
+    } else
+        setOutputsToUndef(outputPins);
+}
+
+void nts::Rom2716::setOutputsToUndef(const std::size_t &outputs[])
+{
+    for (std::size_t i = 0; i < 8; i++)
+        setStateAt(outputs[i], UNDEFINED);
 }

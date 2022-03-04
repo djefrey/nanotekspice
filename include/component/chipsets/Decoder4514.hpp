@@ -16,6 +16,7 @@ namespace nts {
             ~Decoder4514() = default;
 
             void update();
+            void setOutputsToUndef(const std::size_t &outputs[]);
 
         protected:
         private:

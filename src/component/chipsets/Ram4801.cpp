@@ -22,8 +22,6 @@ nts::Ram4801::Ram4801() : Component("4801", 24)
         setPinTypeAt(inout[i], INOUT);
 }
 
-#include <iostream>
-
 void nts::Ram4801::update()
 {
     const std::size_t address[] = {7, 6, 5, 4, 3, 2, 1, 0, 22, 21};
@@ -42,15 +40,19 @@ void nts::Ram4801::update()
         dataBits[i] = readStateAt(data[i]);
     if (chipEnable == TRUE) {
         for (std::size_t i = 0; i < 10; i++) {
-            if (addressBits[i] == UNDEFINED)
+            if (addressBits[i] == UNDEFINED) {
+                setOutputsToUndef(data);
                 return;
+            }
             if (addressBits[i] == TRUE)
                 addr |= (1 << i);
         }
         if (writeEnable == TRUE) {
             for (std::size_t i = 0; i < 8; i++) {
-                if (dataBits[i] == UNDEFINED)
+                if (dataBits[i] == UNDEFINED) {
+                    setOutputsToUndef(data);
                     return;
+                }
                 if (dataBits[i] == TRUE)
                     val |= (1 << i);
             }
@@ -61,4 +63,10 @@ void nts::Ram4801::update()
                 setStateAt(data[i], val & (1 << i) ? TRUE : FALSE);
         }
     }
+}
+
+void nts::Ram4801::setOutputsToUndef(const std::size_t &outputs[])
+{
+    for (std::size_t i = 0; i < 8; i++)
+        setStateAt(outputs[i], UNDEFINED);
 }

@@ -38,8 +38,10 @@ void nts::Selector4512::update()
             setStateAt(13, FALSE);
         } else if (inhibit == FALSE) {
             for (std::size_t i = 0; i < 3; i++) {
-                if (bits[i] == UNDEFINED)
+                if (bits[i] == UNDEFINED) {
+                    setStateAt(13, UNDEFINED);
                     return;
+                }
                 if (bits[i] == TRUE)
                     idx |= (1 << i);
             }

@@ -18,6 +18,7 @@ namespace nts {
             ~Ram4801() = default;
 
             void update();
+            void setOutputsToUndef(const std::size_t &outputs[]);
 
         protected:
         private:
