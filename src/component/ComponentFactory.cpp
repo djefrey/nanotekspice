@@ -33,6 +33,7 @@
 #include "component/chipsets/Ram4801.hpp"
 #include "component/chipsets/Shift4094.hpp"
 #include "component/chipsets/Proco4242.hpp"
+#include "component/chipsets/Gtx3090.hpp"
 
 std::unique_ptr<nts::ComponentFactory> nts::ComponentFactory::instance = nullptr;
 
@@ -61,6 +62,7 @@ const std::map<std::string, std::function<std::unique_ptr<nts::IComponent>(void)
     std::make_pair("4094", [](){ return std::make_unique<nts::Shift4094>(); }),
 
     std::make_pair("4242", [](){ return std::make_unique<nts::Proco4242>(); }),
+    std::make_pair("3090", [](){ return std::make_unique<nts::Gtx3090>(); }),
 };
 
 nts::ComponentFactory &nts::ComponentFactory::get()

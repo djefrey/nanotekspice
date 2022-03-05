@@ -35,7 +35,8 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Selector4512.cpp		\
 						src/component/chipsets/Ram4801.cpp			\
 						src/component/chipsets/Shift4094.cpp		\
-						src/component/chipsets/Proco4242.cpp
+						src/component/chipsets/Proco4242.cpp		\
+						src/component/chipsets/Gtx3090.cpp
 
 TESTS_SRC			=	tests/TestsTools.cpp						\
 						tests/NTSTests.cpp							\
@@ -61,7 +62,7 @@ NAME_TESTS			=	unit_tests
 all: $(NAME)
 
 $(NAME): $(MAIN_OBJ) $(OBJ)
-	g++ $(CXXFLAGS) -o $(NAME) $(MAIN_OBJ) $(OBJ)
+	g++ $(CXXFLAGS) -o $(NAME) $(MAIN_OBJ) $(OBJ) -lsfml-window -lsfml-graphics -lsfml-system
 
 tests_run: CXXFLAGS += --coverage
 tests_run: fclean $(OBJ) $(TESTS_OBJ)
