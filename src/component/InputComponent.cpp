@@ -19,7 +19,7 @@ void nts::InputComponent::update()
 
 nts::Tristate nts::InputComponent::getValue()
 {
-    return compute(0);
+    return getStateAt(0);
 }
 
 void nts::InputComponent::setValue(nts::Tristate value)

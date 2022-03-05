@@ -40,14 +40,8 @@ nts::Tristate nts::Component::compute(std::size_t pin)
 void nts::Component::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
     if (this->_types[pin] == other.getPinTypeAt(otherPin)
-    && (this->_types[pin] != UNUSED))
+    && (this->_types[pin] == INPUT || this->_types[pin] == OUTPUT))
         throw NtsError("Component::setLink()", "Invalid link : IN -> IN / OUT -> OUT");
-    if (other.getPinTypeAt(otherPin) == OUTPUT) {
-        for (Connection conn : this->getConnectionsAt(pin)) {
-            if (conn.component->getPinTypeAt(conn.pin) == OUTPUT)
-                throw NtsError("Component::setLink()", "Invalid link, an OUT -> IN conn already exists");
-        }
-    }
     this->addConnectionAt(pin, other, otherPin);
     other.addConnectionAt(otherPin, *this, pin);
 }
@@ -102,7 +96,8 @@ nts::Tristate nts::Component::readStateAt(nts::PinId pin)
         throw NtsError("Component::readStateAt()", "Invalid pin");
     for (Connection conn : this->getConnectionsAt(pin)) {
         conn.component->simulate(this->_lastUpdate);
-        if (conn.component->getPinTypeAt(conn.pin) & OUTPUT)
+        if (conn.component->getPinTypeAt(conn.pin) & OUTPUT
+         && state == UNDEFINED)
             state = conn.component->getStateAt(conn.pin);
     }
     this->setStateAt(pin, state);

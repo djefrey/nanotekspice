@@ -32,6 +32,7 @@
 #include "component/chipsets/Selector4512.hpp"
 #include "component/chipsets/Ram4801.hpp"
 #include "component/chipsets/Shift4094.hpp"
+#include "component/chipsets/Proco4242.hpp"
 
 std::unique_ptr<nts::ComponentFactory> nts::ComponentFactory::instance = nullptr;
 
@@ -58,6 +59,8 @@ const std::map<std::string, std::function<std::unique_ptr<nts::IComponent>(void)
     std::make_pair("4512", [](){ return std::make_unique<nts::Selector4512>(); }),
     std::make_pair("4801", [](){ return std::make_unique<nts::Ram4801>(); }),
     std::make_pair("4094", [](){ return std::make_unique<nts::Shift4094>(); }),
+
+    std::make_pair("4242", [](){ return std::make_unique<nts::Proco4242>(); }),
 };
 
 nts::ComponentFactory &nts::ComponentFactory::get()

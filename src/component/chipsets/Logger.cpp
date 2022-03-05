@@ -36,6 +36,7 @@ void nts::Logger::update()
     try {
         c = (uint8_t) Gates::statesToInt(bits, 8);
         this->file << c;
+        this->file.flush();
     } catch (InvalidStateError &e) {
     }
 }

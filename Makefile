@@ -34,7 +34,8 @@ SRC					+=	src/component/chipsets/And4081.cpp			\
 						src/component/chipsets/Decoder4514.cpp		\
 						src/component/chipsets/Selector4512.cpp		\
 						src/component/chipsets/Ram4801.cpp			\
-						src/component/chipsets/Shift4094.cpp
+						src/component/chipsets/Shift4094.cpp		\
+						src/component/chipsets/Proco4242.cpp
 
 TESTS_SRC			=	tests/TestsTools.cpp						\
 						tests/NTSTests.cpp							\

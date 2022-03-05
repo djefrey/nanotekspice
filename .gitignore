@@ -3,8 +3,7 @@ nanotekspice
 vgcore*
 .vscode
 **/*.nts
-rom.bin
-log.bin
+*.bin
 **/*.gcda
 **/*.gcno
 unit_tests

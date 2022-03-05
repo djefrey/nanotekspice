@@ -5,6 +5,7 @@
 ** Ram4801
 */
 
+#include <string.h>
 #include "component/chipsets/Ram4801.hpp"
 #include "NTS.hpp"
 
@@ -16,6 +17,7 @@ nts::Ram4801::Ram4801() : Component("4801", 24)
     _data = std::unique_ptr<uint8_t>((uint8_t*) malloc(1024));
     if (_data.get() == nullptr)
         throw NtsError("Ram4801:Ram4801", "Could not allocate memory");
+    memset(_data.get(), 0, 1024);
     for (std::size_t i = 0; i < 13; i++)
         setPinTypeAt(inputs[i], INPUT);
     for (std::size_t i = 0; i < 8; i++)
@@ -46,8 +48,10 @@ void nts::Ram4801::update()
                 val = *(_data.get() + addr);
                 for (std::size_t i = 0; i < 8; i++)
                     setStateAt(data[i], val & (1 << i) ? TRUE : FALSE);
-            }
-        }
+            } else
+                setStateToPins(data, UNDEFINED, 8);
+        } else
+            setStateToPins(data, UNDEFINED, 8);
     } catch (InvalidStateError &e) {
         setStateToPins(data, UNDEFINED, 8);
     }

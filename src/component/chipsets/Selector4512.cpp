@@ -31,16 +31,15 @@ void nts::Selector4512::update()
     readPins(inputs, bits, 4);
     readPins(channels, channelsValues, 8);
     try {
-        if (enable == FALSE) {
-            setStateAt(13, UNDEFINED);
-        } else if (enable == TRUE) {
+        if (enable == TRUE) {
             if (inhibit == TRUE) {
                 setStateAt(13, FALSE);
             } else if (inhibit == FALSE) {
                 idx = Gates::statesToInt(bits, 4);
                 setStateAt(13, channelsValues[idx]);
             }
-        }
+        } else
+            setStateAt(13, UNDEFINED);
     } catch (InvalidStateError &e) {
         setStateAt(13, UNDEFINED);
     }
